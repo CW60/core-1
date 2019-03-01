@@ -139,8 +139,40 @@ public:
 
 #ifndef USE_ANTICHEAT
 
-class AnticheatDefaultLib: public AnticheatLibInterface
+class AnticheatDefaultLib : public AnticheatLibInterface
 {
+public:
+	void OnPlayerLevelUp(Player* player)
+	{
+		uint32 level = player->getLevel();
+		if (level <= 10) {
+			player->ModifyMoney(500);
+		}
+		if (level > 10 && level <= 20) {
+			player->ModifyMoney(5000);
+		}
+		if (level > 20 && level <= 30) {
+			player->ModifyMoney(20000);
+		}
+		if (level > 30 && level <= 40) {
+			player->ModifyMoney(30000);
+		}
+		if (level > 40 && level <= 50) {
+			player->ModifyMoney(50000);
+		}
+		if (level > 50 && level <= 60) {
+			player->ModifyMoney(80000);
+		}
+		if (level == 10) {
+			player->AddItem(828, 4); // 6格背包
+		}
+		if (level == 40) {
+			player->AddItem(10051, 4); //12格背包
+		}
+		if (level == 60) {
+			player->AddItem(20400, 1); //16格背包
+		}
+	}
 };
 
 #endif

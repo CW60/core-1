@@ -1367,6 +1367,21 @@ void Player::Update(uint32 update_diff, uint32 p_time)
     std::stringstream reason;
     CheatAction cheatAction = _cheatData->Update(p_time, reason);
     GetSession()->ProcessAnticheatAction("SAC", reason.str().c_str(), cheatAction);
+	GetHealthPercent();
+	if (getLevel() <= 55 && isAlive() && GetHealthPercent() < 50) {
+		if (!HasAura(25771, EFFECT_INDEX_0)) {
+			AddAura(25771, 0, this);
+			AddAura(25299, 0, this);
+			AddAura(10901, 0, this);
+			AddAura(12042, 0, this);
+			if (getLevel() <= 50) {
+				AddAura(1719, 0, this);
+				AddAura(29166, 0, this);
+				AddAura(13750, 0, this);
+			}
+		}
+	}
+
 }
 
 void Player::OnDisconnected()

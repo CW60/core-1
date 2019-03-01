@@ -754,6 +754,20 @@ void WorldSession::HandlePlayerLogin(LoginQueryHolder *holder)
         //for (int i = 0; i < MAX_MOVE_TYPE; ++i)
             //GetWarden()->SendSpeedChange(UnitMoveType(i), pCurrChar->GetSpeed(UnitMoveType(i)));
 
+	if (pCurrChar->GetTeam() == HORDE)
+	{
+		
+		sWorld.SendWorldText(210005, pCurrChar->GetName(), pCurrChar->GetName());
+	}
+	// ALLIANCE
+	else
+	{
+		sWorld.SendWorldText(210004, pCurrChar->GetName(), pCurrChar->GetName());
+	}
+	
+	if (pCurrChar->GetGuildId() == 0) {
+		sWorld.SendWorldText(210006, pCurrChar->GetName(), pCurrChar->GetName());
+	}
     ALL_SESSION_SCRIPTS(this, OnLogin(pCurrChar));
 }
 
