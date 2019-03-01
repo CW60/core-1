@@ -317,7 +317,8 @@ void ObjectMgr::LoadSpellDisabledEntrys()
         uint32 spellid = fields[0].GetUInt32();
         if (!sSpellMgr.GetSpellEntry(spellid))
         {
-            sLog.outError("Spell entry %u from `spell_disabled` doesn't exist, ignoring.", spellid);
+            if (!sSpellMgr.IsExistingSpellId(spellid))
+                sLog.outError("Spell entry %u from `spell_disabled` doesn't exist, ignoring.", spellid);
             continue;
         }
         m_DisabledSpells.insert(spellid);
@@ -3471,12 +3472,14 @@ void ObjectMgr::LoadItemPrototypes()
                 const_cast<ItemPrototype*>(proto)->BagFamily = 0;
 #endif
 
+#if SUPPORTED_CLIENT_BUILD > CLIENT_BUILD_1_8_4
             ItemBagFamilyEntry const* bf = sItemBagFamilyStore.LookupEntry(proto->BagFamily);
             if (!bf)
             {
                 sLog.outErrorDb("Item (Entry: %u) has bag family %u not listed in ItemBagFamily.dbc, setted it to 0", i, proto->BagFamily);
                 const_cast<ItemPrototype*>(proto)->BagFamily = 0;
             }
+#endif
         }
 
         if (proto->DisenchantID)
@@ -5417,7 +5420,7 @@ void ObjectMgr::LoadQuestLocales()
 
 void ObjectMgr::LoadPetCreateSpells()
 {
-    std::unique_ptr<QueryResult> result(WorldDatabase.Query("SELECT `entry`, `spell1`, `spell2`, `spell3`, `spell4` FROM `petcreateinfo_spell`"));
+    std::unique_ptr<QueryResult> result(WorldDatabase.PQuery("SELECT `entry`, `spell1`, `spell2`, `spell3`, `spell4` FROM `petcreateinfo_spell` WHERE %u BETWEEN `patch_min` AND `patch_max`", sWorld.GetWowPatch()));
     if (!result)
     {
         BarGoLink bar(1);

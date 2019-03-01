@@ -988,6 +988,7 @@ void World::LoadConfigSettings(bool reload)
     setConfig(CONFIG_BOOL_NO_RESPEC_PRICE_DECAY, "Progression.NoRespecPriceDecay", true);
     setConfig(CONFIG_BOOL_NO_QUEST_XP_TO_GOLD, "Progression.NoQuestXpToGold", true);
     setConfig(CONFIG_BOOL_RESTORE_DELETED_ITEMS, "Progression.RestoreDeletedItems", true);
+    setConfig(CONFIG_BOOL_UNLINKED_AUCTION_HOUSES, "Progression.UnlinkedAuctionHouses", true);
 
     setConfig(CONFIG_UINT32_CREATURE_SUMMON_LIMIT, "MaxCreatureSummonLimit", DEFAULT_CREATURE_SUMMON_LIMIT);
     m_creatureSummonCountLimit = getConfig(CONFIG_UINT32_CREATURE_SUMMON_LIMIT);
@@ -1449,6 +1450,7 @@ void World::SetInitialWorldSettings()
     {
         sLog.outString("Loading Auctions...");
         sLog.outString();
+        sAuctionMgr.LoadAuctionHouses();
         sAuctionMgr.LoadAuctionItems();
         sAuctionMgr.LoadAuctions();
         sLog.outString(">>> Auctions loaded");
@@ -2697,9 +2699,11 @@ bool World::configNoReload(bool reload, eConfigBoolValues index, char const* fie
 
 void World::InvalidatePlayerDataToAllClient(ObjectGuid guid)
 {
+#if SUPPORTED_CLIENT_BUILD > CLIENT_BUILD_1_8_4
     WorldPacket data(SMSG_INVALIDATE_PLAYER, 8);
     data << guid;
     SendGlobalMessage(&data);
+#endif
 }
 
 void World::SetSessionDisconnected(WorldSession* sess)

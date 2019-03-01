@@ -643,7 +643,10 @@ bool Map::ScriptCommand_DespawnCreature(const ScriptInfo& script, WorldObject* s
         return ShouldAbortScript(script);
     }
 
-    pSource->DespawnOrUnsummon(script.despawn.despawnDelay);
+    // Fix possible crash due to double aura deletion when creature is despawned on death.
+    uint32 const despawnDelay = !pSource->isAlive() && (script.despawn.despawnDelay == 0) ? 1 : script.despawn.despawnDelay;
+
+    pSource->DespawnOrUnsummon(despawnDelay);
 
     return false;
 }
@@ -2119,6 +2122,22 @@ bool Map::ScriptCommand_SummonObject(const ScriptInfo& script, WorldObject* sour
     float o = script.o ? script.o : source->GetOrientation();
 
     source->SummonGameObject(script.summonObject.gameobject_entry, x, y, z, o, 0, 0, 0, 0, script.summonObject.respawn_time);
+
+    return false;
+}
+
+// SCRIPT_COMMAND_SET_FLY (77)
+bool Map::ScriptCommand_SetFly(const ScriptInfo& script, WorldObject* source, WorldObject* target)
+{
+    Unit* pSource = ToUnit(source);
+
+    if (!pSource)
+    {
+        sLog.outError("SCRIPT_COMMAND_SET_FLY (script id %u) call for a NULL or non-unit source (TypeId: %u), skipping.", script.id, source ? source->GetTypeId() : 0);
+        return ShouldAbortScript(script);
+    }
+
+    pSource->SetFly(script.setFly.enabled);
 
     return false;
 }

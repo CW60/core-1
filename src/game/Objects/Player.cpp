@@ -2944,7 +2944,9 @@ void Player::InitStatsForLevel(bool reapplyMods)
 
     SetInt32Value(UNIT_FIELD_ATTACK_POWER,            0);
     SetInt32Value(UNIT_FIELD_ATTACK_POWER_MODS,       0);
+#if SUPPORTED_CLIENT_BUILD > CLIENT_BUILD_1_8_4
     SetFloatValue(UNIT_FIELD_ATTACK_POWER_MULTIPLIER, 0.0f);
+#endif
     SetInt32Value(UNIT_FIELD_RANGED_ATTACK_POWER,     0);
     SetInt32Value(UNIT_FIELD_RANGED_ATTACK_POWER_MODS, 0);
 #if SUPPORTED_CLIENT_BUILD > CLIENT_BUILD_1_9_4
@@ -4330,9 +4332,13 @@ void Player::SetFly(bool enable)
 void Player::SetWaterWalk(bool enable)
 {
     Unit::SetWaterWalk(enable);
-
+#if SUPPORTED_CLIENT_BUILD > CLIENT_BUILD_1_8_4
     WorldPacket data(enable ? SMSG_MOVE_WATER_WALK : SMSG_MOVE_LAND_WALK, GetPackGUID().size() + 4);
     data << GetPackGUID();
+#else
+    WorldPacket data(enable ? SMSG_MOVE_WATER_WALK : SMSG_MOVE_LAND_WALK, 8 + 4);
+    data << GetGUID();
+#endif
     data << uint32(0);
     GetSession()->SendPacket(&data);
     GetCheatData()->OrderSent(&data);
@@ -4348,7 +4354,11 @@ void Player::SetFeatherFall(bool enable)
     else
         data.Initialize(SMSG_MOVE_NORMAL_FALL, 8 + 4);
 
+#if SUPPORTED_CLIENT_BUILD > CLIENT_BUILD_1_8_4
     data << GetPackGUID();
+#else
+    data << GetGUID();
+#endif
     data << uint32(0);
     SendMessageToSet(&data, true);
     GetCheatData()->OrderSent(&data);
@@ -4368,7 +4378,11 @@ void Player::SetHover(bool enable)
     else
         data.Initialize(SMSG_MOVE_UNSET_HOVER, 8 + 4);
 
+#if SUPPORTED_CLIENT_BUILD > CLIENT_BUILD_1_8_4
     data << GetPackGUID();
+#else
+    data << GetGUID();
+#endif
     data << uint32(0);
     SendMovementMessageToSet(std::move(data), true);
     GetCheatData()->OrderSent(&data);
@@ -10225,13 +10239,21 @@ Item* Player::EquipItem(uint16 pos, Item *pItem, bool update)
 
             _ApplyItemMods(pItem, slot, true);
 
+            // World of Warcraft Client Patch 1.7.0 (2005-09-13)
+            // - Switching weapons in combat triggers a 1 second global cooldown for
+            //   all abilities for rogues and a 1.5 second global cooldown for
+            //   everyone else.
+#if SUPPORTED_CLIENT_BUILD > CLIENT_BUILD_1_6_1
             // Weapons and also Totem/Relic/Sigil/etc
             if (pProto && isInCombat() && (pProto->Class == ITEM_CLASS_WEAPON || pProto->InventoryType == INVTYPE_RELIC) && m_weaponChangeTimer == 0)
             {
                 uint32 cooldownSpell = SPELL_ID_WEAPON_SWITCH_COOLDOWN_1_5s;
 
+                // There doesn't appear to be a 1 sec combat swap cd spell before 1.9.
+#if SUPPORTED_CLIENT_BUILD > CLIENT_BUILD_1_8_4
                 if (getClass() == CLASS_ROGUE)
                     cooldownSpell = SPELL_ID_WEAPON_SWITCH_COOLDOWN_1_0s;
+#endif
 
                 SpellEntry const* spellProto = sSpellMgr.GetSpellEntry(cooldownSpell);
 
@@ -10239,10 +10261,15 @@ Item* Player::EquipItem(uint16 pos, Item *pItem, bool update)
                     sLog.outError("Weapon switch cooldown spell %u couldn't be found in Spell.dbc", cooldownSpell);
                 else
                 {
+#if SUPPORTED_CLIENT_BUILD > CLIENT_BUILD_1_8_4
                     m_weaponChangeTimer = spellProto->StartRecoveryTime;
+#else
+                    m_weaponChangeTimer = (getClass() == CLASS_ROGUE) ? 1000 : spellProto->StartRecoveryTime;
+#endif
                     SendSpellCooldown(cooldownSpell, 0, GetObjectGuid());
                 }
             }
+#endif
         }
 
         if (IsInWorld() && update)
@@ -15723,6 +15750,7 @@ void Player::SendRaidInfo() const
 */
 void Player::SendSavedInstances() const
 {
+#if SUPPORTED_CLIENT_BUILD > CLIENT_BUILD_1_8_4
     bool hasBeenSaved = false;
     WorldPacket data;
 
@@ -15752,6 +15780,7 @@ void Player::SendSavedInstances() const
             GetSession()->SendPacket(&data);
         }
     }
+#endif
 }
 
 /// convert the player's binds to the group
@@ -16620,10 +16649,12 @@ void Player::SendExplorationExperience(uint32 Area, uint32 Experience) const
 
 void Player::SendFactionAtWar(uint32 reputationId, bool apply) const
 {
+#if SUPPORTED_CLIENT_BUILD > CLIENT_BUILD_1_8_4
     WorldPacket data(SMSG_SET_FACTION_ATWAR, 4 + 1);
     data << uint32(reputationId);
     data << uint8(apply ? FACTION_FLAG_AT_WAR : 0);
     GetSession()->SendPacket(&data);
+#endif
 }
 
 void Player::SendResetFailedNotify()
@@ -16676,18 +16707,22 @@ void Player::ResetInstances(InstanceResetMethod method)
 
 void Player::SendResetInstanceSuccess(uint32 MapId) const
 {
+#if SUPPORTED_CLIENT_BUILD > CLIENT_BUILD_1_8_4
     WorldPacket data(SMSG_INSTANCE_RESET, 4);
     data << uint32(MapId);
     GetSession()->SendPacket(&data);
+#endif
 }
 
 void Player::SendResetInstanceFailed(uint32 reason, uint32 MapId) const
 {
+#if SUPPORTED_CLIENT_BUILD > CLIENT_BUILD_1_8_4
     // reason: see enum InstanceResetFailReason
     WorldPacket data(SMSG_INSTANCE_RESET_FAILED, 8);
     data << uint32(reason);
     data << uint32(MapId);
     GetSession()->SendPacket(&data);
+#endif
 }
 
 /** Implementation of hourly maximum instances per account */
@@ -18458,7 +18493,11 @@ void Player::SendInitialPacketsAfterAddToMap(bool login)
     if (HasAuraType(SPELL_AURA_MOD_ROOT))
     {
         WorldPacket data2(SMSG_FORCE_MOVE_ROOT, 10);
+#if SUPPORTED_CLIENT_BUILD > CLIENT_BUILD_1_8_4
         data2 << GetPackGUID();
+#else
+        data2 << GetGUID();
+#endif
         data2 << (uint32)2;
         SendObjectMessageToSet(&data2, true);
         GetCheatData()->OrderSent(&data2);
@@ -18490,6 +18529,7 @@ void Player::SendTransferAborted(uint8 reason) const
 
 void Player::SendInstanceResetWarning(uint32 mapid, uint32 _time) const
 {
+#if SUPPORTED_CLIENT_BUILD > CLIENT_BUILD_1_8_4
     // type of warning, based on the time remaining until reset
     uint32 type;
     if (_time > 3600)
@@ -18505,6 +18545,7 @@ void Player::SendInstanceResetWarning(uint32 mapid, uint32 _time) const
     data << uint32(mapid);
     data << uint32(_time);
     GetSession()->SendPacket(&data);
+#endif
 }
 
 void Player::ApplyEquipCooldown(Item * pItem)
@@ -19329,10 +19370,12 @@ void Player::ResurectUsingRequestData()
 
 void Player::SetClientControl(Unit* target, uint8 allowMove)
 {
+#if SUPPORTED_CLIENT_BUILD > CLIENT_BUILD_1_8_4
     WorldPacket data(SMSG_CLIENT_CONTROL_UPDATE, target->GetPackGUID().size() + 1);
     data << target->GetPackGUID();
     data << uint8(allowMove);
     GetSession()->SendPacket(&data);
+#endif
 }
 
 bool Player::IsAllowedToMove(Unit* unit) const
@@ -20171,7 +20214,11 @@ void Player::BuildTeleportAckMsg(WorldPacket& data, float x, float y, float z, f
     mi.UpdateTime(WorldTimer::getMSTime());
     mi.ChangePosition(x, y, z, ang);
     data.Initialize(MSG_MOVE_TELEPORT_ACK, 41);
+#if SUPPORTED_CLIENT_BUILD > CLIENT_BUILD_1_8_4
     data << GetPackGUID();
+#else
+    data << GetGUID();
+#endif
 #if SUPPORTED_CLIENT_BUILD > CLIENT_BUILD_1_9_4
     data << uint32(0);                                      // this value increments every time
 #endif
@@ -20856,7 +20903,11 @@ void Player::RefreshBitsForVisibleUnits(UpdateMask* mask, uint32 objectTypeMask)
             ByteBuffer buff(50);
 
             buff << uint8(UPDATETYPE_VALUES);
+#if SUPPORTED_CLIENT_BUILD > CLIENT_BUILD_1_8_4
             buff << obj->GetPackGUID();
+#else
+            buff << obj->GetGUID();
+#endif
             obj->BuildValuesUpdate(UPDATETYPE_VALUES, &buff, mask, this);
             data.AddUpdateBlock(buff);
         }

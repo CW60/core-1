@@ -315,6 +315,8 @@ enum eScriptCommand
                                                             // datalong = gameobject_entry
                                                             // datalong2 = respawn_time
                                                             // x/y/z/o = coordinates
+    SCRIPT_COMMAND_SET_FLY                  = 77,           // source = Unit
+                                                            // datalong = (bool) 0 = off, 1 = on
     SCRIPT_COMMAND_MAX,
 
     SCRIPT_COMMAND_DISABLED                 = 9999          // Script action was disabled during loading.
@@ -965,6 +967,11 @@ struct ScriptInfo
             uint32 respawn_time;                            // datalong2
         } summonObject;
 
+        struct                                              // SCRIPT_COMMAND_SET_FLY (77)
+        {
+            uint32 enabled;                                 // datalong
+        } setFly;
+
         struct
         {
             uint32 data[9];
@@ -1320,7 +1327,6 @@ class ScriptMgr
         void CollectPossibleEventIds(std::set<uint32>& eventIds);
         void LoadScripts(ScriptMapMap& scripts, const char* tablename);
         void CheckScriptTexts(ScriptMapMap const& scripts);
-        void DisableScriptAction(ScriptInfo& script);
 
         typedef std::vector<std::string> ScriptNameMap;
         typedef std::unordered_map<uint32, uint32> AreaTriggerScriptMap;

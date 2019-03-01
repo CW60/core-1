@@ -306,10 +306,12 @@ void Spell::EffectInstaKill(SpellEffectIndex /*eff_idx*/)
 
     WorldObject* caster = GetCastingObject();               // we need the original casting object
 
+#if SUPPORTED_CLIENT_BUILD > CLIENT_BUILD_1_8_4
     WorldPacket data(SMSG_SPELLINSTAKILLLOG, (8 + 4));
     data << unitTarget->GetObjectGuid();                    // Victim GUID
     data << uint32(m_spellInfo->Id);
     m_caster->SendMessageToSet(&data, true);
+#endif
 
     m_caster->DealDamage(unitTarget, unitTarget->GetHealth(), nullptr, DIRECT_DAMAGE, SPELL_SCHOOL_MASK_NORMAL, nullptr, false);
 }
@@ -341,6 +343,7 @@ void Spell::EffectSchoolDMG(SpellEffectIndex effect_idx)
             {
                 switch (m_spellInfo->Id)                    // better way to check unknown
                 {
+#if SUPPORTED_CLIENT_BUILD > CLIENT_BUILD_1_8_4
                     // Meteor like spells (divided damage to targets)
                     case 24340:
                     case 26558:
@@ -355,6 +358,7 @@ void Spell::EffectSchoolDMG(SpellEffectIndex effect_idx)
                         damage /= count;                    // divide to all targets
                         break;
                     }
+#endif
                     // percent from health with min
                     case 25599:                             // Thundercrash
                     {
@@ -1105,6 +1109,7 @@ void Spell::EffectDummy(SpellEffectIndex eff_idx)
                     unitTarget->CastSpell(unitTarget, 20494, true);
                     return;
                 }
+#if SUPPORTED_CLIENT_BUILD > CLIENT_BUILD_1_8_4
                 case 19593:                                // Egg Explosion (Buru)
                 {
                     if (!unitTarget)
@@ -1137,6 +1142,7 @@ void Spell::EffectDummy(SpellEffectIndex eff_idx)
                     }
                     return;
                 }
+#endif
                 case 20572:                                 // Blood Fury
                 {
                     if (m_caster->GetTypeId() != TYPEID_PLAYER)
@@ -1204,7 +1210,7 @@ void Spell::EffectDummy(SpellEffectIndex eff_idx)
                     DEBUG_LOG("AddObject at SpellEfects.cpp EffectDummy");
                     map->Add(pGameObj);
 
-                    WorldPacket data(SMSG_GAMEOBJECT_SPAWN_ANIM_OBSOLETE, 8);
+                    WorldPacket data(SMSG_GAMEOBJECT_SPAWN_ANIM, 8);
                     data << ObjectGuid(pGameObj->GetObjectGuid());
                     m_caster->SendMessageToSet(&data, true);
 
@@ -1839,6 +1845,7 @@ void Spell::EffectDummy(SpellEffectIndex eff_idx)
         }
         case SPELLFAMILY_PALADIN:
         {
+#if SUPPORTED_CLIENT_BUILD > CLIENT_BUILD_1_8_4
             switch (m_spellInfo->SpellIconID)
             {
                 case 156:                                   // Holy Shock
@@ -1889,6 +1896,7 @@ void Spell::EffectDummy(SpellEffectIndex eff_idx)
                     return;
                 }
             }
+#endif
             break;
         }
         case SPELLFAMILY_SHAMAN:
@@ -3161,8 +3169,13 @@ void Spell::EffectDispel(SpellEffectIndex eff_idx)
         {
             int32 count = success_list.size();
             WorldPacket data(SMSG_SPELLDISPELLOG, 8 + 8 + 4 + count * 4);
+#if SUPPORTED_CLIENT_BUILD > CLIENT_BUILD_1_8_4
             data << unitTarget->GetPackGUID();              // Victim GUID
             data << m_caster->GetPackGUID();                // Caster GUID
+#else
+            data << unitTarget->GetGUID();              // Victim GUID
+            data << m_caster->GetGUID();                // Caster GUID
+#endif
             data << uint32(count);
             for (std::list<std::pair<SpellAuraHolder* , uint32> >::iterator j = success_list.begin(); j != success_list.end(); ++j)
             {
@@ -5730,7 +5743,7 @@ void Spell::EffectSummonObject(SpellEffectIndex eff_idx)
     m_caster->AddGameObject(pGameObj);
 
     map->Add(pGameObj);
-    WorldPacket data(SMSG_GAMEOBJECT_SPAWN_ANIM_OBSOLETE, 8);
+    WorldPacket data(SMSG_GAMEOBJECT_SPAWN_ANIM, 8);
     data << ObjectGuid(pGameObj->GetObjectGuid());
     m_caster->SendMessageToSet(&data, true);
 

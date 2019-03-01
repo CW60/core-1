@@ -1143,11 +1143,13 @@ void Group::SetTargetIcon(uint8 id, ObjectGuid targetGuid)
 
     m_targetIcons[id] = targetGuid;
 
+#if SUPPORTED_CLIENT_BUILD > CLIENT_BUILD_1_8_4
     WorldPacket data(MSG_RAID_TARGET_UPDATE, (1 + 1 + 8));
     data << uint8(0); // 1 - full icon list, 0 - delta update
     data << uint8(id);
     data << targetGuid;
     BroadcastPacket(&data, true);
+#endif
 }
 
 void Group::ClearTargetIcon(ObjectGuid targetGuid)
@@ -1203,7 +1205,7 @@ void Group::SendTargetIconList(WorldSession *session)
 {
     if (!session)
         return;
-
+#if SUPPORTED_CLIENT_BUILD > CLIENT_BUILD_1_8_4
     WorldPacket data(MSG_RAID_TARGET_UPDATE, (1 + TARGET_ICON_COUNT * 9));
     data << uint8(1); // 1 - full icon list, 0 - delta update
 
@@ -1217,6 +1219,7 @@ void Group::SendTargetIconList(WorldSession *session)
     }
 
     session->SendPacket(&data);
+#endif
 }
 
 void Group::SendUpdate()
@@ -2144,11 +2147,11 @@ static void RewardGroupAtKill_helper(Player* pGroupGuy, Unit* pVictim, uint32 co
 /** Provide rewards to group members at unit kill
  *
  * @param pVictim       Killed unit
- * @param player_tap    Player who tap unit if online, it can be group member or can be not if leaved after tap but before kill target
+ * @param pPlayerTap    Player who tap unit if online, it can be group member or can be not if leaved after tap but before kill target
  *
- * Rewards received by group members and player_tap
+ * Rewards received by group members and pPlayerTap
  */
-void Group::RewardGroupAtKill(Unit* pVictim, Player* player_tap)
+void Group::RewardGroupAtKill(Unit* pVictim, Player* pPlayerTap)
 {
     bool PvP = pVictim->isCharmedOwnedByPlayerOrPlayer();
 
@@ -2160,7 +2163,7 @@ void Group::RewardGroupAtKill(Unit* pVictim, Player* player_tap)
     Player* member_with_max_level = NULL;
     Player* not_gray_member_with_max_level = NULL;
 
-    GetDataForXPAtKill(pVictim, count, sum_level, member_with_max_level, not_gray_member_with_max_level, player_tap);
+    GetDataForXPAtKill(pVictim, count, sum_level, member_with_max_level, not_gray_member_with_max_level, pPlayerTap);
 
     if (member_with_max_level)
     {
@@ -2179,7 +2182,7 @@ void Group::RewardGroupAtKill(Unit* pVictim, Player* player_tap)
                 continue;
 
             // will proccessed later
-            if (pGroupGuy == player_tap)
+            if (pGroupGuy == pPlayerTap)
                 continue;
 
             if (!pGroupGuy->IsAtGroupRewardDistance(pVictim))
@@ -2188,11 +2191,11 @@ void Group::RewardGroupAtKill(Unit* pVictim, Player* player_tap)
             RewardGroupAtKill_helper(pGroupGuy, pVictim, count, PvP, group_rate, sum_level, is_dungeon, not_gray_member_with_max_level, member_with_max_level, xp);
         }
 
-        if (player_tap)
+        if (pPlayerTap)
         {
             // member (alive or dead) or his corpse at req. distance
-            if (player_tap->IsAtGroupRewardDistance(pVictim))
-                RewardGroupAtKill_helper(player_tap, pVictim, count, PvP, group_rate, sum_level, is_dungeon, not_gray_member_with_max_level, member_with_max_level, xp);
+            if (pPlayerTap->IsAtGroupRewardDistance(pVictim))
+                RewardGroupAtKill_helper(pPlayerTap, pVictim, count, PvP, group_rate, sum_level, is_dungeon, not_gray_member_with_max_level, member_with_max_level, xp);
         }
     }
 }
