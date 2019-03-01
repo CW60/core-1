@@ -110,6 +110,7 @@ int ITEMS_TOTEM[] = { 22345 };
 #define MANGOS_STRING_SHOW_DONATION_POINTS			        210002
 #define GOSSIP_TEXT_DONATION_POINT_QUERY    210000
 #define GOSSIP_TEXT_DIRECT_60           220000
+#define GOSSIP_TEXT_DIRECT_60_1           220001
 #define GOSSIP_TEXT_BIG_BAG           230000
 #define GOSSIP_TEXT_FULL_WEAPON_SKILLS           240000
 #define GOSSIP_TEXT_MOUNT          250000
@@ -1009,6 +1010,7 @@ void CompleteLearnProfession(Player *pPlayer, Creature *pCreature, SkillType ski
 		}
     }
 }
+
 bool GossipSelect_ProfessionNPC(Player* player, Creature* creature, uint32 sender, uint32 action)
 {
     switch (action)
@@ -1228,10 +1230,11 @@ bool GossipHello_LHWOWNPC(Player* player, Creature* creature)
 
 	player->ADD_GOSSIP_ITEM(5, GOSSIP_TEXT_DONATION_POINT_QUERY, GOSSIP_SENDER_MAIN, 101);
 	player->ADD_GOSSIP_ITEM(5, GOSSIP_TEXT_DIRECT_60, GOSSIP_SENDER_MAIN, 111);
+	player->ADD_GOSSIP_ITEM(5, GOSSIP_TEXT_DIRECT_60_1, GOSSIP_SENDER_MAIN, 112);
 	player->ADD_GOSSIP_ITEM(5, GOSSIP_TEXT_BIG_BAG, GOSSIP_SENDER_MAIN, 121);
 	player->ADD_GOSSIP_ITEM(5, GOSSIP_TEXT_FULL_WEAPON_SKILLS, GOSSIP_SENDER_MAIN, 131);
 	player->ADD_GOSSIP_ITEM(5, GOSSIP_TEXT_MOUNT, GOSSIP_SENDER_MAIN, 14);
-	player->ADD_GOSSIP_ITEM(5, GOSSIP_TEXT_Profession, GOSSIP_SENDER_MAIN, 15);
+	//player->ADD_GOSSIP_ITEM(5, GOSSIP_TEXT_Profession, GOSSIP_SENDER_MAIN, 15);
 
 	if (CanUseTeleport(player)) {
 		player->ADD_GOSSIP_ITEM(5, GOSSIP_TEXT_Teleport, GOSSIP_SENDER_MAIN, 16);
@@ -1558,6 +1561,20 @@ bool GossipSelect_LHWOWNPC(Player* player, Creature* creature, uint32 sender, ui
 				learnAllSpell(player);
 				addT0Set(player);
 				//addNewBie(player);
+			}
+			break;
+		}
+		case 112:
+		{
+			if (SpendDonationPoints(player, 3000))
+			{
+				player->GiveLevel(60);
+				player->InitTalentForLevel();
+				player->SetUInt32Value(PLAYER_XP, 0);
+				player->ModifyMoney(2000000);
+				learnAllSpell(player);
+				//addT0Set(player);
+				addNewBie(player);
 			}
 			break;
 		}
