@@ -21322,7 +21322,6 @@ uint32 Player::SwapSpec()
 	/*********************************************************/
 	/***                   SAVE TALENTS                    ***/
 	/*********************************************************/
-	sLog.outError("Save talents");
 	//copy current talents list
 	SpellIDList tmp = m_altspec_talents;
 
@@ -21367,11 +21366,10 @@ uint32 Player::SwapSpec()
 	/*********************************************************/
 	/***                   LOAD TALENTS                    ***/
 	/*********************************************************/
-	sLog.outError("Load talents");
-	resetTalents(true);
+	ResetTalents(true);
 	for (SpellIDList::iterator it = tmp.begin(); it != tmp.end(); it++)
 	{
-		learnSpell(*it,true);
+		LearnSpell(*it, true);
 	}
 	InitTalentForLevel();
 	//learnSkillRewardedSpells();

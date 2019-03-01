@@ -1049,7 +1049,7 @@ ChatCommand * ChatHandler::getCommandTable()
         { NODE, "announce",       SEC_BASIC_ADMIN,    true,  &ChatHandler::HandleAnnounceCommand,            "", nullptr },
 		{ NODE, "sj",       SEC_PLAYER,         true,  &ChatHandler::HandleWorldCast,            "", nullptr },
         //dualspec
-		{ NODE, "swapspec",       SEC_PLAYER,         false,  &ChatHandler::HandleSwapSpec,            "", nullptr },
+		{ NODE, "tf",       SEC_PLAYER,         false,  &ChatHandler::HandleSwapSpec,            "", nullptr },
         { NODE, "notify",         SEC_BASIC_ADMIN,    true,  &ChatHandler::HandleNotifyCommand,              "", nullptr },
         { NODE, "goname",         SEC_MODERATOR_CONF, false, &ChatHandler::HandleGonameCommand,              "", nullptr },
         { NODE, "namego",         SEC_MODERATOR_CONF, false, &ChatHandler::HandleNamegoCommand,              "", nullptr },
