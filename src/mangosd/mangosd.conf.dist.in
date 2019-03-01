@@ -1739,6 +1739,8 @@ Visibility.AIRelocationNotifyDelay = 1000
 #         Modifies the speed of player's ghosts, removed upon reviving, not permanent/saved, in non-BG and BG maps
 #         Default: 1.0 (normal speed)
 #
+#    DualSpecTimeDelta 
+# 	 time duration to switch dual talent, dual spec command .swapspec
 ###################################################################################################################
 
 Rate.Health = 1
@@ -1810,6 +1812,7 @@ Death.Ghost.RunSpeed.World = 1.0
 Death.Ghost.RunSpeed.Battleground = 1.0
 Rate.WarEffortResourceComplete = 0.0
 WarEffortResourceCompletePeriod = 86400
+DualSpecTimeDelta = 300
 
 ###################################################################################################################
 # BATTLEGROUND CONFIG

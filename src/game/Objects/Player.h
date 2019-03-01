@@ -1305,6 +1305,8 @@ class MANGOS_DLL_SPEC Player final: public Unit
         void _LoadSpells(QueryResult* result);
         bool _LoadHomeBind(QueryResult* result);
         void _LoadBGData(QueryResult* result);
+        //dual spec
+		void _LoadAlternativeSpec();
         void _LoadIntoDataField(const char* data, uint32 startOffset, uint32 count);
         void _LoadGuild(QueryResult* result);
         uint32 m_atLoginFlags;
@@ -1333,6 +1335,9 @@ class MANGOS_DLL_SPEC Player final: public Unit
         void _SaveSpells();
         void _SaveBGData();
         void _SaveStats();
+
+        //dual spec
+		void _SaveAlternativeSpec();
 
         void _SetCreateBits(UpdateMask* updateMask, Player* target) const;
         void _SetUpdateBits(UpdateMask* updateMask, Player* target) const;
@@ -1377,6 +1382,12 @@ class MANGOS_DLL_SPEC Player final: public Unit
         void RemoveMiniPet();
         Pet* GetMiniPet() const;
         void AutoReSummonPet();
+
+        //Second spec info
+		typedef std::list<uint32> SpellIDList;
+		SpellIDList m_altspec_talents;
+		//ActionButtonList m_altspec_actionButtons;
+		time_t m_altspec_lastswap;
 
         // use only in Pet::Unsummon/Spell::DoSummon
         void _SetMiniPet(Pet* pet) { m_miniPetGuid = pet ? pet->GetObjectGuid() : ObjectGuid(); }
@@ -1859,6 +1870,9 @@ class MANGOS_DLL_SPEC Player final: public Unit
 
         uint32 GetHomeBindMap() const { return m_homebindMapId; }
         uint16 GetHomeBindAreaId() const { return m_homebindAreaId; }
+
+        //dual spec
+		uint32 SwapSpec();
 
         void SetSummonPoint(uint32 mapid, float x, float y, float z)
         {
