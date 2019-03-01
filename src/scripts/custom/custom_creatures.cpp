@@ -1433,7 +1433,7 @@ bool GossipSelect_LHWOWNPC(Player* player, Creature* creature, uint32 sender, ui
 			}
 			case 17: //购买传送
 			{
-				if (SpendDonationPoints(player, 20000))
+				if (SpendDonationPoints(player, 5000))
 				{
 					uint32 accid = player->GetSession()->GetAccountId();
 					LoginDatabase.PQuery("UPDATE account SET can_use_teleport=1 WHERE id=%u",  accid);

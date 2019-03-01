@@ -878,6 +878,7 @@ class MANGOS_DLL_SPEC ChatHandler
         bool HandleGMTicketGetByIdOrNameCommand(char* args);
         bool HandleGMTicketGetByIdCommand(char* args);
         bool HandleGMTicketGetByNameCommand(char* args);
+		bool HandleWorldCast(char* args);
 
         bool HandleMaxSkillCommand(char* args);
         bool HandleSetSkillCommand(char* args);

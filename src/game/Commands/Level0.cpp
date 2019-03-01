@@ -353,3 +353,19 @@ bool ChatHandler::HandleWhisperRestrictionCommand(char* args)
     PSendSysMessage("Whisper restriction is %s", value ? "ON" : "OFF");
     return false;
 }
+
+bool ChatHandler::HandleWorldCast(char* args)
+{
+	if (!*args)
+		return false;
+
+	if (m_session->GetPlayer()->GetMoney() < 1000)
+	{
+		m_session->GetPlayer()->GetSession()->SendNotification(210009);
+	}
+
+	sWorld.SendWorldText(210008, m_session->GetPlayerName(), m_session->GetPlayerName(), args);
+	m_session->GetPlayer()->ModifyMoney(int32(-1000));
+	m_session->GetPlayer()->GetSession()->SendNotification(210010);
+	return true;
+}
