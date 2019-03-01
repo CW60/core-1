@@ -40,6 +40,7 @@ INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('260009', 
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('260010', '急救', '');
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('260011', '钓鱼', '');
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('260012', '烹饪', '');
+INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('280000', '双天赋 5000赞助点', '');
 
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('270000', '世界传送', '');
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('271001', '<-[主菜单]', '');
@@ -138,4 +139,10 @@ INSERT INTO `mangos_string` (`entry`, `content_default`) VALUES ('210007', '恭�
 INSERT INTO `mangos_string` (`entry`, `content_default`) VALUES ('210008', '|cffff0000[世界聊天]:|r|cffffffff|Hplayer:%s|h[%s]|h|r:%s');
 INSERT INTO `mangos_string` (`entry`, `content_default`) VALUES ('210009', '金币余额不足。');
 INSERT INTO `mangos_string` (`entry`, `content_default`) VALUES ('210010', '世界频道广播已经发送,扣除费用10银币。');
+INSERT INTO `mangos_string` (`entry`, `content_default`) VALUES ('210011', '使用 .tf 命令来切换你的天赋。');
+INSERT INTO `mangos_string` (`entry`, `content_default`) VALUES ('210012', '.tf 命令需要你找LHWOW赞助商人来学习使用。');
+INSERT INTO `mangos_string` (`entry`, `content_default`) VALUES ('210014', '你已经赞助过该项目，无需重复赞助，感谢！');
+
+
+
 INSERT INTO `mangos_string` (`entry`, `content_default`) VALUES ('260013', '你已经学会了2个专业技能，不能再学习了！');

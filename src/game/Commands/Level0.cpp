@@ -372,20 +372,36 @@ bool ChatHandler::HandleWorldCast(char* args)
 
 bool ChatHandler::HandleSwapSpec( char* /*args*/)
 {
-	uint32 res = m_session->GetPlayer()->SwapSpec();
-	switch (res) {
-	case 3: {
-		PSendSysMessage("Oh, wait a bit, please!");
-		break;
+	uint32 accid = m_session->GetAccountId();
+	QueryResult *result = LoginDatabase.PQuery("SELECT can_use_dualspec FROM account WHERE id=%u", accid);
+	if (!result)
+	{
+		return false;
 	}
-	case 2: {
-		PSendSysMessage("Too low level");
-		break;
+	Field *fields = result->Fetch();
+	uint32 can_use_dualspec = fields[0].GetUInt32();
+	delete result;
+	if (can_use_dualspec == 1)
+	{
+		uint32 res = m_session->GetPlayer()->SwapSpec();
+		switch (res) {
+			case 3: {
+				PSendSysMessage("Oh, wait a bit, please!");
+				break;
+			}
+			case 2: {
+				PSendSysMessage("Too low level");
+				break;
+			}
+			case 1: {
+				PSendSysMessage("Swapped!");
+				break;
+			}
+		}
+		return true;
 	}
-	case 1: {
-		PSendSysMessage("Swapped!");
-		break;
+	else {
+		m_session->GetPlayer()->GetSession()->SendNotification(210012);
 	}
-	}
-	return true;
+	return false;
 } 

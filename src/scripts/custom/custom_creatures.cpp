@@ -132,6 +132,8 @@ int ITEMS_TOTEM[] = { 22345 };
 #define GOSSIP_TEXT_Teleport           270000
 #define GOSSIP_TEXT_Teleport_Buy           271004
 
+#define GOSSIP_TEXT_DualSpec          280000
+
 #define GOSSIP_TEXT_Orgrimmar			200001
 #define GOSSIP_TEXT_Ironforge			200002
 
@@ -1242,6 +1244,9 @@ bool GossipHello_LHWOWNPC(Player* player, Creature* creature)
 	else {
 		player->ADD_GOSSIP_ITEM(5, GOSSIP_TEXT_Teleport_Buy, GOSSIP_SENDER_MAIN, 17);
 	}
+	
+	player->ADD_GOSSIP_ITEM(5, GOSSIP_TEXT_DualSpec, GOSSIP_SENDER_MAIN, 18);
+
 
 	player->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE, creature->GetGUID());
 	return true;
@@ -1439,6 +1444,33 @@ bool GossipSelect_LHWOWNPC(Player* player, Creature* creature, uint32 sender, ui
 					LoginDatabase.PQuery("UPDATE account SET can_use_teleport=1 WHERE id=%u",  accid);
 					player->GetSession()->SendNotification(210007);
 				}
+				break;
+			}
+			case 18: //购买双天赋
+			{
+				uint32 accid = player->GetSession()->GetAccountId();
+				QueryResult *result = LoginDatabase.PQuery("SELECT can_use_dualspec FROM account WHERE id=%u", accid);
+				if (!result)
+				{
+					return false;
+				}
+				Field *fields = result->Fetch();
+				uint32 can_use_dualspec = fields[0].GetUInt32();
+				delete result;
+				if (can_use_dualspec == 0)
+				{
+					if (SpendDonationPoints(player, 5000))
+					{
+						uint32 accid = player->GetSession()->GetAccountId();
+						LoginDatabase.PQuery("UPDATE account SET can_use_dualspec=1 WHERE id=%u", accid);
+						player->GetSession()->SendNotification(210007);
+						player->GetSession()->SendNotification(210011);
+					}
+				}
+				else {
+					player->GetSession()->SendNotification(210014);
+				}
+				
 				break;
 			}
 		}
