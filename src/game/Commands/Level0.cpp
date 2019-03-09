@@ -359,14 +359,15 @@ bool ChatHandler::HandleWorldCast(char* args)
 	if (!*args)
 		return false;
 
-	if (m_session->GetPlayer()->GetMoney() < 1000)
-	{
-		m_session->GetPlayer()->GetSession()->SendNotification(210009);
-	}
+	//if (m_session->GetPlayer()->GetMoney() < 1000)
+	//{
+		//m_session->GetPlayer()->GetSession()->SendNotification(210009);
+		//return false;
+	//}
 
 	sWorld.SendWorldText(210008, m_session->GetPlayerName(), m_session->GetPlayerName(), args);
-	m_session->GetPlayer()->ModifyMoney(int32(-1000));
-	m_session->GetPlayer()->GetSession()->SendNotification(210010);
+	//m_session->GetPlayer()->ModifyMoney(int32(-1000));
+	//m_session->GetPlayer()->GetSession()->SendNotification(210010);
 	return true;
 }
 

@@ -2243,6 +2243,7 @@ void safeAddItem(Player* player, uint32 itemId, uint32 count)
 	{
 		player->SendEquipError(msg, NULL, NULL, itemId);
 		sLog.out(LOG_CHAR, "Failed add %u to user %u", itemId, player->GetGUID());
+		
 	}
 }
 
