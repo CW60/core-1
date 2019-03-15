@@ -1364,7 +1364,7 @@ void Player::Update(uint32 update_diff, uint32 p_time)
     std::stringstream reason;
     CheatAction cheatAction = _cheatData->Update(p_time, reason);
     GetSession()->ProcessAnticheatAction("SAC", reason.str().c_str(), cheatAction);
-	GetHealthPercent();
+
 	if (getLevel() <= 55 && isAlive() && GetHealthPercent() < 50) {
 		if (!HasAura(25771, EFFECT_INDEX_0)) {
 			AddAura(25771, 0, this);
