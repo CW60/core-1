@@ -149,16 +149,16 @@ void AuctionHouseBotMgr::AddItem(AuctionHouseBotEntry e, AuctionHouseObject *auc
     switch (etime)
     {
         case 1:
-            etime = 432000;
+            etime = 43200;
             break;
         case 2:
-            etime = 864000;
+            etime = 86400;
             break;
         case 3:
-            etime = 1728000;
+            etime = 172800;
             break;
         default:
-            etime = 864000;
+            etime = 86400;
             break;
     }
     item->SetCount(e.stack);

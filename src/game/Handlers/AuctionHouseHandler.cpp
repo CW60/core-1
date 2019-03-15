@@ -295,20 +295,12 @@ void WorldSession::HandleAuctionSellItem(WorldPacket & recv_data)
     // client understand only 3 auction time
     switch (etime)
     {
-		/*
         case 1*MIN_AUCTION_TIME:
             break;
         case 4*MIN_AUCTION_TIME:
             break;
         case 12*MIN_AUCTION_TIME:
             break;
-			*/
-		case 30 * MIN_AUCTION_TIME:
-			break;
-		case 120 * MIN_AUCTION_TIME:
-			break;
-		case 360 * MIN_AUCTION_TIME:
-			break;
         default:
             return;
     }
