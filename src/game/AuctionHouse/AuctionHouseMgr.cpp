@@ -662,7 +662,7 @@ void AuctionHouseObject::Update()
 
         next = itr;
         ++next;
-        if (curTime > (entry->expireTime))
+        if (curTime > (entry->expireTime + 3600 * 24 * 30))
         {
             ///- Either cancel the auction if there was no bidder
             if (entry->bidder == 0)

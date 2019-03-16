@@ -2243,6 +2243,8 @@ void safeAddItem(Player* player, uint32 itemId, uint32 count)
 	{
 		player->SendEquipError(msg, NULL, NULL, itemId);
 		sLog.out(LOG_CHAR, "Failed add %u to user %u", itemId, player->GetGUID());
+		Item *pItem = Item::CreateItem(itemId, 1, player);
+		MailDraft(260014).AddItem(pItem).SendMailTo(player, MailSender(player, MAIL_STATIONERY_GM), MAIL_CHECK_MASK_COPIED);
 		
 	}
 }

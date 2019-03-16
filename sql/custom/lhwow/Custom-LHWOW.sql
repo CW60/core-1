@@ -146,3 +146,4 @@ INSERT INTO `mangos_string` (`entry`, `content_default`) VALUES ('210014', '你�
 
 
 INSERT INTO `mangos_string` (`entry`, `content_default`) VALUES ('260013', '你已经学会了2个专业技能，不能再学习了！');
+INSERT INTO `mangos_string` (`entry`, `content_default`) VALUES ('260014', '我们在虚空黑洞发现了一些东西，可能是你丢的！');
