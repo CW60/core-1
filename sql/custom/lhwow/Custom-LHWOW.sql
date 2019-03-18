@@ -42,6 +42,13 @@ INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('260011', 
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('260012', '烹饪', '');
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('280000', '双天赋(账号共享) 5000赞助点', '');
 
+INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('211000', '合剂 200赞助点', '');
+INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('211001', '泰坦合剂', '');
+INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('211002', '精炼智慧合剂', '');
+INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('211003', '超级能量合剂', '');
+INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('211004', '多重抗性合剂', '');
+
+
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('270000', '世界传送', '');
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('271001', '<-[主菜单]', '');
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('271002', '[更多] ->', '');

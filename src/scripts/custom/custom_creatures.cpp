@@ -108,7 +108,15 @@ int ITEMS_TOTEM[] = { 22345 };
 // broadcast texts
 #define MANGOS_STRING_DONATION_POINTS_NOT_ENOUGH           210001
 #define MANGOS_STRING_SHOW_DONATION_POINTS			        210002
+
 #define GOSSIP_TEXT_DONATION_POINT_QUERY    210000
+
+#define GOSSIP_TEXT_BUFF    211000
+#define GOSSIP_TEXT_BUFF_TITANS    211001  //泰坦合剂
+#define GOSSIP_TEXT_BUFF_Wisdom    211002  //精炼智慧合剂
+#define GOSSIP_TEXT_BUFF_POWER    211003  //超级能量合剂
+#define GOSSIP_TEXT_BUFF_Resistance    211004  //多重抗性合剂 
+
 #define GOSSIP_TEXT_DIRECT_60           220000
 #define GOSSIP_TEXT_DIRECT_60_1           220001
 #define GOSSIP_TEXT_BIG_BAG           230000
@@ -1248,6 +1256,11 @@ bool GossipHello_LHWOWNPC(Player* player, Creature* creature)
 	player->ADD_GOSSIP_ITEM(5, GOSSIP_TEXT_DualSpec, GOSSIP_SENDER_MAIN, 18);
 
 
+	if (player->getLevel() > 55) {
+		// player->ADD_GOSSIP_ITEM(5, GOSSIP_TEXT_BUFF, GOSSIP_SENDER_MAIN, 19); //合剂赞助
+	}
+
+
 	player->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE, creature->GetGUID());
 	return true;
 }
@@ -1473,6 +1486,15 @@ bool GossipSelect_LHWOWNPC(Player* player, Creature* creature, uint32 sender, ui
 				
 				break;
 			}
+			case 19: //ADD BUFF
+			{
+
+				player->ADD_GOSSIP_ITEM(5, GOSSIP_TEXT_BUFF_TITANS, GOSSIP_SENDER_MAIN, GOSSIP_TEXT_BUFF_TITANS); //泰坦合剂
+				player->ADD_GOSSIP_ITEM(5, GOSSIP_TEXT_BUFF_Wisdom, GOSSIP_SENDER_MAIN, GOSSIP_TEXT_BUFF_Wisdom); //精炼智慧合剂
+				player->ADD_GOSSIP_ITEM(5, GOSSIP_TEXT_BUFF_POWER, GOSSIP_SENDER_MAIN, GOSSIP_TEXT_BUFF_POWER); //超级能量合剂
+				player->ADD_GOSSIP_ITEM(5, GOSSIP_TEXT_BUFF_Resistance, GOSSIP_SENDER_MAIN, GOSSIP_TEXT_BUFF_Resistance); //多重抗性合剂
+				break;
+			}
 		}
 		player->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE, creature->GetGUID());
 	}
@@ -1667,6 +1689,34 @@ bool GossipSelect_LHWOWNPC(Player* player, Creature* creature, uint32 sender, ui
 		}
 		case 149: {
 
+			break;
+		}
+		case GOSSIP_TEXT_BUFF_TITANS: {
+			if (SpendDonationPoints(player, 200))
+			{
+				player->AddAura(17626);
+			}
+			break;
+		}
+		case GOSSIP_TEXT_BUFF_Wisdom: {
+			if (SpendDonationPoints(player, 200))
+			{
+				player->AddAura(17627);
+			}
+			break;
+		}
+		case GOSSIP_TEXT_BUFF_POWER: {
+			if (SpendDonationPoints(player, 200))
+			{
+				player->AddAura(17628);
+			}
+			break;
+		}
+		case GOSSIP_TEXT_BUFF_Resistance: {
+			if (SpendDonationPoints(player, 200))
+			{
+				player->AddAura(17629);
+			}
 			break;
 		}
 
@@ -2212,19 +2262,7 @@ void addItemSet(Player* player, uint32 itemsetId)
 
 		if (pProto->ItemSet == itemsetId)
 		{
-			ItemPosCountVec dest;
-			InventoryResult msg = player->CanStoreNewItem(NULL_BAG, NULL_SLOT, dest, pProto->ItemId, 1);
-			if (msg == EQUIP_ERR_OK)
-			{
-				Item* item = player->StoreNewItem(dest, pProto->ItemId, true);
-				item->SetBinding(true);
-				player->SendNewItem(item, 1, false, true);
-			}
-			else
-			{
-				player->SendEquipError(msg, NULL, NULL, pProto->ItemId);
-				sLog.out(LOG_CHAR, "Failed add %u to user %u", pProto->ItemId, player->GetGUID());
-			}
+			safeAddItem(player, pProto->ItemId, 1);
 		}
 	}
 }
