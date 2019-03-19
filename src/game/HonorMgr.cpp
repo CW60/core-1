@@ -508,6 +508,8 @@ float HonorMaintenancer::CalculateRpDecay(float rpEarning, float rp)
 
 float HonorMaintenancer::MaximumRpAtLevel(uint8 level)
 {
+	return 10000; //limit level 3
+
     if (level <= 29)
         return 6500;
     if (level >= 30 && level <= 35)
