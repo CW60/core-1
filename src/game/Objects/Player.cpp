@@ -14742,6 +14742,9 @@ bool Player::LoadFromDB(ObjectGuid guid, SqlQueryHolder *holder)
 
     _LoadSpells(holder->GetResult(PLAYER_LOGIN_QUERY_LOADSPELLS));
 
+	//dual spec
+	_LoadAlternativeSpec();
+
     // after spell load
     InitTalentForLevel();
     LearnDefaultSpells();
@@ -21246,10 +21249,31 @@ void Player::CreatePacketBroadcaster()
     sWorld.GetBroadcaster()->RegisterPlayer(m_broadcaster);
 }
 
+void Player::_LoadAlternativeSpec() {
+
+	m_altspec_talents.clear();
+	QueryResult *result = CharacterDatabase.PQuery("SELECT altspells FROM character_altspec WHERE guid = '%u'",GetGUIDLow());
+
+	if (result)
+	{
+		Field *fields = result->Fetch();
+		std::string spells = fields[0].GetString();
+		std::istringstream ss(spells);
+		std::string spell;
+
+		while(std::getline(ss, spell, ' ')) {
+			m_altspec_talents.push_back(atoi(spell.c_str()));
+		}
+	}
+
+	delete result;
+
+};
+
 //dual spec
 void Player::_SaveAlternativeSpec()
 {
-	sLog.outError("Saving spec");
+	//sLog.outError("Saving spec");
 	//At first, save spells.
 	std::ostringstream ss;
 	ss << "REPLACE INTO character_altspec (guid, altspells) VALUES ('" << GetGUIDLow() << "', '";
@@ -21257,11 +21281,11 @@ void Player::_SaveAlternativeSpec()
 	for (SpellIDList::iterator it = m_altspec_talents.begin(); it != m_altspec_talents.end(); it++)
 		ss << *it << " ";
 	ss << "')";
-	sLog.outError("Spells serialized");
+	//sLog.outError("Spells serialized");
 
 	//Nice, it saved!
 	CharacterDatabase.PExecute(ss.str().c_str());
-	sLog.outError("Spells saved");
+	//sLog.outError("Spells saved");
 
 	//Now turn of action buttons
 	//Before - remove all player keys
@@ -21366,7 +21390,7 @@ uint32 Player::SwapSpec()
 	ResetTalents(true);
 	for (SpellIDList::iterator it = tmp.begin(); it != tmp.end(); it++)
 	{
-		LearnSpell(*it, true);
+		LearnSpell(*it, false, true);
 	}
 	InitTalentForLevel();
 	//learnSkillRewardedSpells();
@@ -21395,5 +21419,6 @@ uint32 Player::SwapSpec()
 	//Drop mana and health to minimum for preventing of profit from swappings
 	SetHealth(12);
 	SetPower(POWER_MANA, 12);
+	_SaveAlternativeSpec();
 	return 1; //Okay
 }

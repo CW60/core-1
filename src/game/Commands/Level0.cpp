@@ -366,6 +366,8 @@ bool ChatHandler::HandleWorldCast(char* args)
 	//}
 
 	sWorld.SendWorldText(210008, m_session->GetPlayerName(), m_session->GetPlayerName(), args);
+
+	sLog.out(LOG_CHAT, "[World Chat] %s: %s", m_session->GetPlayerName(), args);
 	//m_session->GetPlayer()->ModifyMoney(int32(-1000));
 	//m_session->GetPlayer()->GetSession()->SendNotification(210010);
 	return true;

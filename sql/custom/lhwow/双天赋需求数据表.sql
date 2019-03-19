@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS `characters`.`character_altspec`;
-CREATE TABLE `characters`.`character_altspec` (
+DROP TABLE IF EXISTS `character_altspec`;
+CREATE TABLE `character_altspec` (
   `guid` int(11) unsigned NOT NULL default '0' COMMENT 'Global Unique Identifier',
   `altspells` longtext,
   PRIMARY KEY  (`guid`)
@@ -9,9 +9,9 @@ CREATE TABLE `characters`.`character_altspec` (
 -- Dumping data for table `characters_altspec`
 --
 
-LOCK TABLES `characters`.`character_altspec` WRITE;
-/*!40000 ALTER TABLE `characters`.`character_altspec` DISABLE KEYS */;
-/*!40000 ALTER TABLE `characters`.`character_altspec` ENABLE KEYS */;
+LOCK TABLES `character_altspec` WRITE;
+/*!40000 ALTER TABLE `character_altspec` DISABLE KEYS */;
+/*!40000 ALTER TABLE `character_altspec` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
