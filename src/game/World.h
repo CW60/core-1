@@ -270,6 +270,13 @@ enum eConfigUInt32Values
     //dual spec
 	CONFIG_DUAL_SPEC_TIME_DELTA,
     CONFIG_UINT32_BANLIST_RELOAD_TIMER,
+    CONFIG_UINT32_WARDEN_CLIENT_RESPONSE_DELAY,
+    CONFIG_UINT32_WARDEN_CLIENT_CHECK_HOLDOFF,
+    CONFIG_UINT32_WARDEN_DEFAULT_PENALTY,
+    CONFIG_UINT32_WARDEN_CLIENT_BAN_DURATION,
+    CONFIG_UINT32_WARDEN_NUM_MEM_CHECKS,
+    CONFIG_UINT32_WARDEN_NUM_OTHER_CHECKS,
+    CONFIG_UINT32_WARDEN_DB_LOGLEVEL,
     CONFIG_UINT32_VALUE_COUNT
 };
 
@@ -465,6 +472,8 @@ enum eConfigBoolValues
     CONFIG_BOOL_RESTORE_DELETED_ITEMS,
     CONFIG_BOOL_UNLINKED_AUCTION_HOUSES,
     CONFIG_BOOL_PREVENT_ITEM_DATAMINING,
+    CONFIG_BOOL_WARDEN_WIN_ENABLED,
+    CONFIG_BOOL_WARDEN_OSX_ENABLED,
     CONFIG_BOOL_VALUE_COUNT
 };
 
@@ -731,6 +740,7 @@ class World
         static uint32 GetRelocationAINotifyDelay()          { return m_relocation_ai_notify_delay; }
 
         static uint32 GetCreatureSummonCountLimit()         { return m_creatureSummonCountLimit; }
+        std::string const& GetWardenModuleDirectory() const { return m_wardenModuleDirectory; }
 
         void ProcessCliCommands();
         void QueueCliCommand(CliCommandHolder* commandHolder) { cliCmdQueue.add(commandHolder); }
@@ -854,6 +864,7 @@ class World
         bool m_allowMovement;
         std::string m_motd;
         std::string m_dataPath;
+        std::string m_wardenModuleDirectory;
 
         // for max speed access
         static float m_MaxVisibleDistanceOnContinents;
