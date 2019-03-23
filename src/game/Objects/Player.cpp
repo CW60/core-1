@@ -2839,6 +2839,35 @@ void Player::GiveLevel(uint32 level)
     if (m_session->ShouldBeBanned(getLevel()))
         sWorld.BanAccount(BAN_ACCOUNT, m_session->GetUsername(), 0, m_session->GetScheduleBanReason(), "");
     sAnticheatLib->OnPlayerLevelUp(this);
+
+
+	if (level <= 10) {
+		ModifyMoney(500);
+	}
+	if (level > 10 && level <= 20) {
+		ModifyMoney(5000);
+	}
+	if (level > 20 && level <= 30) {
+		ModifyMoney(20000);
+	}
+	if (level > 30 && level <= 40) {
+		ModifyMoney(30000);
+	}
+	if (level > 40 && level <= 50) {
+		ModifyMoney(50000);
+	}
+	if (level > 50 && level <= 60) {
+		ModifyMoney(80000);
+	}
+	if (level == 10) {
+		AddItem(828, 4); // 6格背包
+	}
+	if (level == 40) {
+		AddItem(10051, 4); //12格背包
+	}
+	if (level == 60) {
+		AddItem(20400, 1); //16格背包
+	}
 }
 
 void Player::UpdateFreeTalentPoints(bool resetIfNeed)
