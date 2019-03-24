@@ -356,6 +356,7 @@ bool ChatHandler::HandleWhisperRestrictionCommand(char* args)
 
 bool ChatHandler::HandleWorldCast(char* args)
 {
+	return false;
 	if (!*args)
 		return false;
 
