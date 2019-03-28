@@ -22,7 +22,7 @@ DELETE FROM `broadcast_text` where `ID` > 200000;
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('200001', '我需要前往奥格瑞玛', '');
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('200002', '我需要前往铁炉堡', '');
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('210000', '赞助点数查询', '');
-INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('220000', '直升60（送T0，技能） 15000赞助点', '');
+INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('220000', '直升60（送T0，技能） 10000赞助点', '');
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('220001', '直升60（送环保装，技能） 3000赞助点', '');
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('230000', '乾坤袋（24格背包） 5000赞助点', '');
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('240000', '武器技能满 3000赞助点', '');
@@ -40,7 +40,7 @@ INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('260009', 
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('260010', '急救', '');
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('260011', '钓鱼', '');
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('260012', '烹饪', '');
-INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('280000', '双天赋(账号共享永久) 10000赞助点', '');
+INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('280000', '双天赋(账号共享永久) 5000赞助点', '');
 
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('211000', '合剂 200赞助点', '');
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('211001', '泰坦合剂', '');
@@ -53,7 +53,7 @@ INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('270000', 
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('271001', '<-[主菜单]', '');
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('271002', '[更多] ->', '');
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('271003', '<- [返回]', '');
-INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('271004', '世界传送(账号共享永久) 10000赞助点', '');
+INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('271004', '世界传送(账号共享永久) 8000赞助点', '');
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('272001', '主要城市', '');
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('272002', '起始区域', '');
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('272003', '地下城', '');
