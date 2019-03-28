@@ -508,8 +508,6 @@ float HonorMaintenancer::CalculateRpDecay(float rpEarning, float rp)
 
 float HonorMaintenancer::MaximumRpAtLevel(uint8 level)
 {
-	return 10000; //limit level 3
-
     if (level <= 29)
         return 6500;
     if (level >= 30 && level <= 35)
@@ -928,6 +926,10 @@ HonorRankInfo HonorMgr::CalculateRank(float rankPoints, uint32 totalHK)
     }
 
     CalculateRankInfo(prk);
+
+	// limit top rank to level3
+	if (prk.rank > 3)
+		prk.rank = 3;
 
     return prk;
 }
