@@ -1240,7 +1240,7 @@ bool GossipHello_LHWOWNPC(Player* player, Creature* creature)
 	player->ADD_GOSSIP_ITEM(5, GOSSIP_TEXT_DONATION_POINT_QUERY, GOSSIP_SENDER_MAIN, 101);
 	if (player->getLevel() < 60) {
 		player->ADD_GOSSIP_ITEM(5, GOSSIP_TEXT_DIRECT_60, GOSSIP_SENDER_MAIN, 111);
-		player->ADD_GOSSIP_ITEM(5, GOSSIP_TEXT_DIRECT_60_1, GOSSIP_SENDER_MAIN, 112);
+		//player->ADD_GOSSIP_ITEM(5, GOSSIP_TEXT_DIRECT_60_1, GOSSIP_SENDER_MAIN, 112);
 	}
 	player->ADD_GOSSIP_ITEM(5, GOSSIP_TEXT_BIG_BAG, GOSSIP_SENDER_MAIN, 121);
 	if (player->getLevel() == 60) {
@@ -1454,7 +1454,7 @@ bool GossipSelect_LHWOWNPC(Player* player, Creature* creature, uint32 sender, ui
 			}
 			case 17: //购买传送
 			{
-				if (SpendDonationPoints(player, 5000))
+				if (SpendDonationPoints(player, 10000))
 				{
 					uint32 accid = player->GetSession()->GetAccountId();
 					LoginDatabase.PQuery("UPDATE account SET can_use_teleport=1 WHERE id=%u",  accid);
@@ -1475,7 +1475,7 @@ bool GossipSelect_LHWOWNPC(Player* player, Creature* creature, uint32 sender, ui
 				delete result;
 				if (can_use_dualspec == 0)
 				{
-					if (SpendDonationPoints(player, 5000))
+					if (SpendDonationPoints(player, 10000))
 					{
 						uint32 accid = player->GetSession()->GetAccountId();
 						LoginDatabase.PQuery("UPDATE account SET can_use_dualspec=1 WHERE id=%u", accid);
@@ -1609,7 +1609,7 @@ bool GossipSelect_LHWOWNPC(Player* player, Creature* creature, uint32 sender, ui
 		}
 		case 111:
 		{
-			if (SpendDonationPoints(player, 10000))
+			if (SpendDonationPoints(player, 15000))
 			{
 				player->GiveLevel(60);
 				player->InitTalentForLevel();
