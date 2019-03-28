@@ -206,6 +206,10 @@ public:
             if (!s_show)
                 continue;
 
+			// hide zoneid if team not eq
+			if (pl->GetTeam() != team && sess->GetSecurity() == SEC_PLAYER)
+				pzoneid = 0;
+
             data << pname;                                      // player name
             data << gname;                                      // guild name
             data << uint32(lvl);                                // player level
