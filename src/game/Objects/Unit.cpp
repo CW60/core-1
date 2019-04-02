@@ -3127,8 +3127,13 @@ float Unit::GetSpellResistChance(Unit const* victim, uint32 schoolMask, bool inn
 
     float resistModHitChance = baseResistance + selfResistance;
 
+#if SUPPORTED_CLIENT_BUILD > CLIENT_BUILD_1_8_4
+    if ((resistModHitChance < 0.0f) && (baseResistance >= 0.0f))
+        resistModHitChance = 0.0f;
+#endif
+
     // Magic vulnerability calculation
-    if (resistModHitChance < 0)
+    if (resistModHitChance < 0.0f)
     {
         // Victim's level based skill, penalize when calculating for low levels (< 20):
         const float skill = std::max(GetSkillMaxForLevel(victim), uint16(100));
@@ -6457,26 +6462,22 @@ Unit* Unit::SelectMagnetTarget(Unit *victim, Spell* spell, SpellEffectIndex eff)
 
 void Unit::SendHealSpellLog(Unit *pVictim, uint32 SpellID, uint32 Damage, bool critical)
 {
+#if SUPPORTED_CLIENT_BUILD > CLIENT_BUILD_1_9_4
     // we guess size
-#if SUPPORTED_CLIENT_BUILD > CLIENT_BUILD_1_8_4
     WorldPacket data(SMSG_SPELLHEALLOG, (8 + 8 + 4 + 4 + 1));
     data << pVictim->GetPackGUID();
     data << GetPackGUID();
-#else
-    WorldPacket data(SMSG_HEALSPELL_ON_PLAYER_OBSOLETE, (8 + 8 + 4 + 4 + 1));
-    data << pVictim->GetGUID();
-    data << GetGUID();
-#endif
     data << uint32(SpellID);
     data << uint32(Damage);
     data << uint8(critical ? 1 : 0);
-    // data << uint8(0);                                       // [-ZERO]
+    // data << uint8(0);                                    // [-ZERO]
     SendMessageToSet(&data, true);
+#endif
 }
 
 void Unit::SendEnergizeSpellLog(Unit *pVictim, uint32 SpellID, uint32 Damage, Powers powertype)
 {
-#if SUPPORTED_CLIENT_BUILD > CLIENT_BUILD_1_8_4
+#if SUPPORTED_CLIENT_BUILD > CLIENT_BUILD_1_9_4
     WorldPacket data(SMSG_SPELLENERGIZELOG, (8 + 8 + 4 + 4 + 4 + 1));
     data << pVictim->GetPackGUID();
     data << GetPackGUID();
