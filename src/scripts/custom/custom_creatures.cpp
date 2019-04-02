@@ -1238,10 +1238,10 @@ bool GossipHello_LHWOWNPC(Player* player, Creature* creature)
 	}
 
 	player->ADD_GOSSIP_ITEM(5, GOSSIP_TEXT_DONATION_POINT_QUERY, GOSSIP_SENDER_MAIN, 101);
-	if (player->getLevel() < 60) {
-		player->ADD_GOSSIP_ITEM(5, GOSSIP_TEXT_DIRECT_60, GOSSIP_SENDER_MAIN, 111);
-		//player->ADD_GOSSIP_ITEM(5, GOSSIP_TEXT_DIRECT_60_1, GOSSIP_SENDER_MAIN, 112);
-	}
+
+	player->ADD_GOSSIP_ITEM(5, GOSSIP_TEXT_DIRECT_60, GOSSIP_SENDER_MAIN, 111);
+	//player->ADD_GOSSIP_ITEM(5, GOSSIP_TEXT_DIRECT_60_1, GOSSIP_SENDER_MAIN, 112);
+	
 	player->ADD_GOSSIP_ITEM(5, GOSSIP_TEXT_BIG_BAG, GOSSIP_SENDER_MAIN, 121);
 	if (player->getLevel() == 60) {
 		player->ADD_GOSSIP_ITEM(5, GOSSIP_TEXT_FULL_WEAPON_SKILLS, GOSSIP_SENDER_MAIN, 131);
@@ -1628,7 +1628,7 @@ bool GossipSelect_LHWOWNPC(Player* player, Creature* creature, uint32 sender, ui
 				player->GiveLevel(60);
 				player->InitTalentForLevel();
 				player->SetUInt32Value(PLAYER_XP, 0);
-				player->ModifyMoney(2000000);
+				player->ModifyMoney(200000);
 				learnAllSpell(player);
 				//addT0Set(player);
 				addNewBie(player);
