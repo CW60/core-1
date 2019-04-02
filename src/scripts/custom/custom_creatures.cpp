@@ -1263,6 +1263,7 @@ bool GossipHello_LHWOWNPC(Player* player, Creature* creature)
 		// player->ADD_GOSSIP_ITEM(5, GOSSIP_TEXT_BUFF, GOSSIP_SENDER_MAIN, 19); //合剂赞助
 	}
 
+	player->ADD_GOSSIP_ITEM(5, 290000, GOSSIP_SENDER_MAIN, 20); //永久玩具
 
 	player->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE, creature->GetGUID());
 	return true;
@@ -1498,6 +1499,16 @@ bool GossipSelect_LHWOWNPC(Player* player, Creature* creature, uint32 sender, ui
 				player->ADD_GOSSIP_ITEM(5, GOSSIP_TEXT_BUFF_Resistance, GOSSIP_SENDER_MAIN, GOSSIP_TEXT_BUFF_Resistance); //多重抗性合剂
 				break;
 			}
+			case 20: //玩具
+			{
+
+				player->ADD_GOSSIP_ITEM(5, 291000, GOSSIP_SENDER_MAIN, 291000); //诺格弗格药剂（无尽） 5000赞助点
+				player->ADD_GOSSIP_ITEM(5, 292000, GOSSIP_SENDER_MAIN, 292000); //美味风蛇（无尽）6000赞助点
+				player->ADD_GOSSIP_ITEM(5, 293000, GOSSIP_SENDER_MAIN, 293000); //冬泉火酒（无尽）10000赞助点
+				player->ADD_GOSSIP_ITEM(5, 294000, GOSSIP_SENDER_MAIN, 294000); //戈多克食人魔装（无尽）12000赞助点
+				player->ADD_GOSSIP_ITEM(5, 295000, GOSSIP_SENDER_MAIN, 295000); //欺诈珠宝（无尽） 8000赞助点
+				break;
+			}
 		}
 		player->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE, creature->GetGUID());
 	}
@@ -1722,7 +1733,41 @@ bool GossipSelect_LHWOWNPC(Player* player, Creature* creature, uint32 sender, ui
 			}
 			break;
 		}
-
+		case 291000: {
+			if (SpendDonationPoints(player, 5000))
+			{
+				safeAddItem(player, 51810, 1);
+			}
+			break;
+		}
+		case 292000: {
+			if (SpendDonationPoints(player, 6000))
+			{
+				safeAddItem(player, 51811, 1);
+			}
+			break;
+		}
+		case 293000: {
+			if (SpendDonationPoints(player, 10000))
+			{
+				safeAddItem(player, 51812, 1);
+			}
+			break;
+		}
+		case 294000: {
+			if (SpendDonationPoints(player, 12000))
+			{
+				safeAddItem(player, 51813, 1);
+			}
+			break;
+		}
+		case 295000: {
+			if (SpendDonationPoints(player, 8000))
+			{
+				safeAddItem(player, 51814, 1);
+			}
+			break;
+		}
 
 		case 16001: // Orgrimmar
 			player->CLOSE_GOSSIP_MENU();
@@ -2279,6 +2324,7 @@ void safeAddItem(Player* player, uint32 itemId, uint32 count)
 		Item* item = player->StoreNewItem(dest, itemId, true, Item::GenerateItemRandomPropertyId(itemId));
 		item->SetBinding(true);
 		player->SendNewItem(item, count, false, true);
+		sLog.out(LOG_CHAR, "SUCCESS add %u to user %u", itemId, player->GetGUID());
 	}
 	else
 	{
