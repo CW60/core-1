@@ -1347,10 +1347,10 @@ bool GossipSelect_LHWOWNPC(Player* player, Creature* creature, uint32 sender, ui
 				player->ADD_GOSSIP_ITEM(5, 270029, GOSSIP_SENDER_MAIN, 16029); //祖尔格拉布
 				player->ADD_GOSSIP_ITEM(5, 270030, GOSSIP_SENDER_MAIN, 16030); //奥妮克希亚的巢穴
 				player->ADD_GOSSIP_ITEM(5, 270031, GOSSIP_SENDER_MAIN, 16031); //熔火之心
-				player->ADD_GOSSIP_ITEM(5, 270032, GOSSIP_SENDER_MAIN, 16032); //黑翼巢穴
-				player->ADD_GOSSIP_ITEM(5, 270033, GOSSIP_SENDER_MAIN, 16033); //安其拉的废墟
-				player->ADD_GOSSIP_ITEM(5, 270034, GOSSIP_SENDER_MAIN, 16034); //安其拉神庙
-				player->ADD_GOSSIP_ITEM(5, 270035, GOSSIP_SENDER_MAIN, 16035); //纳克萨玛斯
+				//player->ADD_GOSSIP_ITEM(5, 270032, GOSSIP_SENDER_MAIN, 16032); //黑翼巢穴
+				//player->ADD_GOSSIP_ITEM(5, 270033, GOSSIP_SENDER_MAIN, 16033); //安其拉的废墟
+				//player->ADD_GOSSIP_ITEM(5, 270034, GOSSIP_SENDER_MAIN, 16034); //安其拉神庙
+				//player->ADD_GOSSIP_ITEM(5, 270035, GOSSIP_SENDER_MAIN, 16035); //纳克萨玛斯
 				player->ADD_GOSSIP_ITEM(5, 271001, GOSSIP_SENDER_MAIN, 16);
 
 				break;
@@ -1432,7 +1432,7 @@ bool GossipSelect_LHWOWNPC(Player* player, Creature* creature, uint32 sender, ui
 					player->ADD_GOSSIP_ITEM(5, 272001, GOSSIP_SENDER_MAIN, 1); //主要城市
 					player->ADD_GOSSIP_ITEM(5, 272002, GOSSIP_SENDER_MAIN, 3); //起始区域
 					player->ADD_GOSSIP_ITEM(5, 272003, GOSSIP_SENDER_MAIN, 5); //地下城
-					//player->ADD_GOSSIP_ITEM(5, 272004, GOSSIP_SENDER_MAIN, 7); //团队副本
+					player->ADD_GOSSIP_ITEM(5, 272004, GOSSIP_SENDER_MAIN, 7); //团队副本
 					player->ADD_GOSSIP_ITEM(5, 272005, GOSSIP_SENDER_MAIN, 4015); //古拉巴什竞技场
 					player->ADD_GOSSIP_ITEM(5, 272006, GOSSIP_SENDER_MAIN, 8); //区域 - 卡利姆多
 					player->ADD_GOSSIP_ITEM(5, 272007, GOSSIP_SENDER_MAIN, 9); //区域 - 东部王国
@@ -1445,7 +1445,7 @@ bool GossipSelect_LHWOWNPC(Player* player, Creature* creature, uint32 sender, ui
 					player->ADD_GOSSIP_ITEM(5, 272001, GOSSIP_SENDER_MAIN, 2); //主要城市
 					player->ADD_GOSSIP_ITEM(5, 272002, GOSSIP_SENDER_MAIN, 4); //起始区域
 					player->ADD_GOSSIP_ITEM(5, 272003, GOSSIP_SENDER_MAIN, 5); //地下城
-					//player->ADD_GOSSIP_ITEM(5, 272004, GOSSIP_SENDER_MAIN, 7); //团队副本
+					player->ADD_GOSSIP_ITEM(5, 272004, GOSSIP_SENDER_MAIN, 7); //团队副本
 					player->ADD_GOSSIP_ITEM(5, 272005, GOSSIP_SENDER_MAIN, 4015); //古拉巴什竞技场
 					player->ADD_GOSSIP_ITEM(5, 272006, GOSSIP_SENDER_MAIN, 8); //区域 - 卡利姆多
 					player->ADD_GOSSIP_ITEM(5, 272007, GOSSIP_SENDER_MAIN, 9); //区域 - 东部王国
