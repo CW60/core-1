@@ -1504,7 +1504,7 @@ bool GossipSelect_LHWOWNPC(Player* player, Creature* creature, uint32 sender, ui
 
 				player->ADD_GOSSIP_ITEM(5, 291000, GOSSIP_SENDER_MAIN, 291000); //诺格弗格药剂（无尽） 5000赞助点
 				player->ADD_GOSSIP_ITEM(5, 292000, GOSSIP_SENDER_MAIN, 292000); //美味风蛇（无尽）6000赞助点
-				player->ADD_GOSSIP_ITEM(5, 293000, GOSSIP_SENDER_MAIN, 293000); //冬泉火酒（无尽）10000赞助点
+				//player->ADD_GOSSIP_ITEM(5, 293000, GOSSIP_SENDER_MAIN, 293000); //冬泉火酒（无尽）10000赞助点
 				player->ADD_GOSSIP_ITEM(5, 294000, GOSSIP_SENDER_MAIN, 294000); //戈多克食人魔装（无尽）12000赞助点
 				player->ADD_GOSSIP_ITEM(5, 295000, GOSSIP_SENDER_MAIN, 295000); //欺诈珠宝（无尽） 8000赞助点
 				break;

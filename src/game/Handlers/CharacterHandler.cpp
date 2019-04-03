@@ -769,6 +769,7 @@ void WorldSession::HandlePlayerLogin(LoginQueryHolder *holder)
 			sWorld.SendWorldText(210006, pCurrChar->GetName(), pCurrChar->GetName());
 		}
 	}
+
 	
     ALL_SESSION_SCRIPTS(this, OnLogin(pCurrChar));
 }
