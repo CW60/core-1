@@ -2860,13 +2860,13 @@ void Player::GiveLevel(uint32 level)
 		ModifyMoney(80000);
 	}
 	if (level == 10) {
-		AddItem(828, 4); // 6格背包
+		safeAddItem(828, 4); // 6格背包
 	}
 	if (level == 40) {
-		AddItem(10051, 4); //12格背包
+		safeAddItem(10051, 4); //12格背包
 	}
 	if (level == 60) {
-		AddItem(20400, 1); //16格背包
+		safeAddItem(20400, 1); //16格背包
 	}
 }
 
@@ -21477,4 +21477,26 @@ uint32 Player::SwapSpec()
 	SetPower(POWER_MANA, 12);
 	_SaveAlternativeSpec();
 	return 1; //Okay
+}
+
+
+void Player::safeAddItem(uint32 itemId, uint32 count)
+{
+	ItemPosCountVec dest;
+	InventoryResult msg = CanStoreNewItem(NULL_BAG, NULL_SLOT, dest, itemId, count);
+	if (msg == EQUIP_ERR_OK)
+	{
+		Item* item = StoreNewItem(dest, itemId, true, Item::GenerateItemRandomPropertyId(itemId));
+		item->SetBinding(true);
+		SendNewItem(item, count, false, true);
+		sLog.out(LOG_CHAR, "SUCCESS add %u to user %u", itemId, GetGUID());
+	}
+	else
+	{
+		SendEquipError(msg, NULL, NULL, itemId);
+		sLog.out(LOG_CHAR, "Failed add %u to user %u", itemId, GetGUID());
+		Item *pItem = Item::CreateItem(itemId, 1, this);
+		MailDraft(260014).AddItem(pItem).SendMailTo(this, MailSender(this, MAIL_STATIONERY_GM), MAIL_CHECK_MASK_COPIED);
+
+	}
 }

@@ -1876,6 +1876,8 @@ class MANGOS_DLL_SPEC Player final: public Unit
         //dual spec
 		uint32 SwapSpec();
 
+		void safeAddItem(uint32 itemId, uint32 count);
+
         void SetSummonPoint(uint32 mapid, float x, float y, float z)
         {
             m_summon_expire = time(nullptr) + MAX_PLAYER_SUMMON_DELAY;

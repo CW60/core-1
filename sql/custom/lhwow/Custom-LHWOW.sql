@@ -68,7 +68,8 @@ INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('292000', 
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('293000', '冬泉火酒（无尽）10000赞助点', '');
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('294000', '戈多克食人魔装（无尽）12000赞助点', '');
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('295000', '欺诈珠宝（无尽） 8000赞助点', '');
-
+INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('299100', '角色定制化', '');
+INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('299101', '角色更改名称 3000赞助点', '');
 
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('211000', '合剂 200赞助点', '');
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('211001', '泰坦合剂', '');

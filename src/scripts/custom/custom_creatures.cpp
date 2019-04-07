@@ -20,7 +20,6 @@
 #include <ctime>
 
 
-
 int CLASS_WARRIOR_SPELL[] = { 6673,772,6343,34428,1715,284,71,6546,2687,3127,7384,5242,72,1160,6572,285,694,2565,8198,676,6547,20230,845,\
 	6192,5246,1608,6190,5308,6574,6178,1161,8204,871,6548,7369,1464,20252,11564,11549,20658 ,18499,11554,7379, 2458,1680,8205,6552,8820,\
 	11565,11572,11608,20660,11550,11555,11600,11578,11604,11566,11580,20661,11573,11609,1719,11551,11556,11605,11601,\
@@ -1264,6 +1263,7 @@ bool GossipHello_LHWOWNPC(Player* player, Creature* creature)
 	}
 
 	player->ADD_GOSSIP_ITEM(5, 290000, GOSSIP_SENDER_MAIN, 20); //永久玩具
+	player->ADD_GOSSIP_ITEM(5, 299100, GOSSIP_SENDER_MAIN, 21); //角色定制化
 
 	player->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE, creature->GetGUID());
 	return true;
@@ -1509,6 +1509,12 @@ bool GossipSelect_LHWOWNPC(Player* player, Creature* creature, uint32 sender, ui
 				player->ADD_GOSSIP_ITEM(5, 295000, GOSSIP_SENDER_MAIN, 295000); //欺诈珠宝（无尽） 8000赞助点
 				break;
 			}
+			case 21: //角色定制
+			{
+
+				player->ADD_GOSSIP_ITEM(5, 299101, GOSSIP_SENDER_MAIN, 299101); //改名字
+				break;
+			}
 		}
 		player->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE, creature->GetGUID());
 	}
@@ -1648,7 +1654,7 @@ bool GossipSelect_LHWOWNPC(Player* player, Creature* creature, uint32 sender, ui
 		}
 		case 121: {
 			if (SpendDonationPoints(player, 5000)) {
-				safeAddItem(player, 51809, 1);
+				player->safeAddItem(51809, 1);
 			}
 			break;
 		}
@@ -1664,32 +1670,32 @@ bool GossipSelect_LHWOWNPC(Player* player, Creature* creature, uint32 sender, ui
 		}
 		case 142: {
 			if (SpendDonationPoints(player, 15000)) {
-				safeAddItem(player, 13335, 1); //死亡军马的缰绳
+				player->safeAddItem(13335, 1); //死亡军马的缰绳
 			}
 			break;
 		}
 		case 143: {
 			if (SpendDonationPoints(player, 30000)) {
 				player->LearnSpell(33392, false);
-				safeAddItem(player, 19902, 1); //迅捷祖利安猛虎
+				player->safeAddItem(19902, 1); //迅捷祖利安猛虎
 			}
 			break;
 		}
 		case 144: {
 			if (SpendDonationPoints(player, 25000)) {
-				safeAddItem(player, 19872, 1); //拉扎什迅猛龙
+				player->safeAddItem(19872, 1); //拉扎什迅猛龙
 			}
 			break;
 		}
 		case 145: {
 			if (SpendDonationPoints(player, 10000)) {
-				safeAddItem(player, 18244, 1); //黑色战羊
+				player->safeAddItem(18244, 1); //黑色战羊
 			}
 			break;
 		}
 		case 146: {
 			if (SpendDonationPoints(player, 10000)) {
-				safeAddItem(player, 18242, 1); //黑色军用座虎缰绳
+				player->safeAddItem(18242, 1); //黑色军用座虎缰绳
 			}
 			break;
 		}
@@ -1736,35 +1742,43 @@ bool GossipSelect_LHWOWNPC(Player* player, Creature* creature, uint32 sender, ui
 		case 291000: {
 			if (SpendDonationPoints(player, 5000))
 			{
-				safeAddItem(player, 51810, 1);
+				player->safeAddItem(51810, 1);
 			}
 			break;
 		}
 		case 292000: {
 			if (SpendDonationPoints(player, 6000))
 			{
-				safeAddItem(player, 51811, 1);
+				player->safeAddItem(51811, 1);
 			}
 			break;
 		}
 		case 293000: {
 			if (SpendDonationPoints(player, 10000))
 			{
-				safeAddItem(player, 51812, 1);
+				player->safeAddItem(51812, 1);
 			}
 			break;
 		}
 		case 294000: {
 			if (SpendDonationPoints(player, 12000))
 			{
-				safeAddItem(player, 51813, 1);
+				player->safeAddItem(51813, 1);
 			}
 			break;
 		}
 		case 295000: {
 			if (SpendDonationPoints(player, 8000))
 			{
-				safeAddItem(player, 51814, 1);
+				player->safeAddItem(51814, 1);
+			}
+			break;
+		}
+		case 299101: {
+			if (SpendDonationPoints(player, 3000))
+			{
+				player->SetAtLoginFlag(AT_LOGIN_RENAME);
+				ChatHandler(player->GetSession()).PSendSysMessage("CHAT OUTPUT: Please log out for name change.");
 			}
 			break;
 		}
@@ -2202,46 +2216,46 @@ void addT0Set(Player* player)
 	{
 	case CLASS_MAGE:
 		addItemSet(player, 181);
-		safeAddItem(player, 15278, 1);
+		player->safeAddItem(15278, 1);
 		break;
 	case CLASS_WARRIOR:
 		addItemSet(player, 189);
-		safeAddItem(player, 23139, 1);
-		safeAddItem(player, 23132, 1);
+		player->safeAddItem(23139, 1);
+		player->safeAddItem(23132, 1);
 		break;
 	case CLASS_WARLOCK:
 		addItemSet(player, 183);
-		safeAddItem(player, 15278, 1);
+		player->safeAddItem(15278, 1);
 		break;
 	case CLASS_PRIEST:
 		addItemSet(player, 182);
-		safeAddItem(player, 13964, 1);
-		safeAddItem(player, 23156, 1);
+		player->safeAddItem(13964, 1);
+		player->safeAddItem(23156, 1);
 		break;
 	case CLASS_DRUID:
 		addItemSet(player, 185);
-		safeAddItem(player, 13964, 1);
-		safeAddItem(player, 23156, 1);
+		player->safeAddItem(13964, 1);
+		player->safeAddItem(23156, 1);
 		break;
 	case CLASS_ROGUE:
 		addItemSet(player, 184);
-		safeAddItem(player, 15246, 2);
+		player->safeAddItem(15246, 2);
 		break;
 	case CLASS_HUNTER:
 		addItemSet(player, 186);
-		safeAddItem(player, 18482, 1);
-		safeAddItem(player, 6679, 1);
+		player->safeAddItem(18482, 1);
+		player->safeAddItem(6679, 1);
 		break;
 	case CLASS_PALADIN:
 		addItemSet(player, 188);
-		safeAddItem(player, 18485, 1);
-		safeAddItem(player, 23132, 1);
+		player->safeAddItem(18485, 1);
+		player->safeAddItem(23132, 1);
 		break;
 	case CLASS_SHAMAN:
 		addItemSet(player, 187);
-		safeAddItem(player, 18485, 1);
-		safeAddItem(player, 13964, 1); 
-		safeAddItem(player, 22345, 1);
+		player->safeAddItem(18485, 1);
+		player->safeAddItem(13964, 1);
+		player->safeAddItem(22345, 1);
 		break;
 	}
 }
@@ -2295,7 +2309,7 @@ void addItemList(Player* player, int *items, int s)
 	int i;
 	for (i = 0; i < s; i++)
 	{
-		safeAddItem(player, items[i], 1);
+		player->safeAddItem(items[i], 1);
 	}
 }
 
@@ -2310,31 +2324,11 @@ void addItemSet(Player* player, uint32 itemsetId)
 
 		if (pProto->ItemSet == itemsetId)
 		{
-			safeAddItem(player, pProto->ItemId, 1);
+			player->safeAddItem(pProto->ItemId, 1);
 		}
 	}
 }
 
-void safeAddItem(Player* player, uint32 itemId, uint32 count)
-{
-	ItemPosCountVec dest;
-	InventoryResult msg = player->CanStoreNewItem(NULL_BAG, NULL_SLOT, dest, itemId, count);
-	if (msg == EQUIP_ERR_OK)
-	{
-		Item* item = player->StoreNewItem(dest, itemId, true, Item::GenerateItemRandomPropertyId(itemId));
-		item->SetBinding(true);
-		player->SendNewItem(item, count, false, true);
-		sLog.out(LOG_CHAR, "SUCCESS add %u to user %u", itemId, player->GetGUID());
-	}
-	else
-	{
-		player->SendEquipError(msg, NULL, NULL, itemId);
-		sLog.out(LOG_CHAR, "Failed add %u to user %u", itemId, player->GetGUID());
-		Item *pItem = Item::CreateItem(itemId, 1, player);
-		MailDraft(260014).AddItem(pItem).SendMailTo(player, MailSender(player, MAIL_STATIONERY_GM), MAIL_CHECK_MASK_COPIED);
-		
-	}
-}
 
 
 void AddSC_custom_creatures()

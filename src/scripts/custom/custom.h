@@ -25,8 +25,9 @@ bool SpendDonationPoints(Player* player, uint32 pricePoints);
 void learnAllSpell(Player* player);
 void addItemSet(Player* player, uint32 itemsetId);
 void addT0Set(Player* player);
-void safeAddItem(Player* player, uint32 itemId, uint32 count);
+
 void learnAllSpell(Player* player, int *spells, int s);
 void addNewBie(Player* player);
 void addItemList(Player* player, int *items, int s);
 bool CanUseTeleport(Player* player);
+
