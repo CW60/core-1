@@ -21495,7 +21495,7 @@ void Player::safeAddItem(uint32 itemId, uint32 count)
 	{
 		SendEquipError(msg, NULL, NULL, itemId);
 		sLog.out(LOG_CHAR, "Failed add %u to user %u", itemId, GetGUID());
-		Item *pItem = Item::CreateItem(itemId, 1, this);
+		Item *pItem = Item::CreateItem(itemId, count, this);
 		MailDraft(260014).AddItem(pItem).SendMailTo(this, MailSender(this, MAIL_STATIONERY_GM), MAIL_CHECK_MASK_COPIED);
 
 	}
