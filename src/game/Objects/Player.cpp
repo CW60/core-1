@@ -2860,10 +2860,16 @@ void Player::GiveLevel(uint32 level)
 		ModifyMoney(80000);
 	}
 	if (level == 10) {
-		safeAddItem(828, 4); // 6格背包
+		safeAddItem(828, 1);
+		safeAddItem(828, 1);
+		safeAddItem(828, 1);
+		safeAddItem(828, 1); // 6格背包
 	}
 	if (level == 40) {
-		safeAddItem(10051, 4); //12格背包
+		safeAddItem(10051, 1);
+		safeAddItem(10051, 1);
+		safeAddItem(10051, 1);
+		safeAddItem(10051, 1); //12格背包
 	}
 	if (level == 60) {
 		safeAddItem(20400, 1); //16格背包
@@ -21495,7 +21501,7 @@ void Player::safeAddItem(uint32 itemId, uint32 count)
 	{
 		SendEquipError(msg, NULL, NULL, itemId);
 		sLog.out(LOG_CHAR, "Failed add %u to user %u", itemId, GetGUID());
-		Item *pItem = Item::CreateItem(itemId, count, this);
+		Item *pItem = Item::CreateItem(itemId, 1, this);
 		MailDraft(260014).AddItem(pItem).SendMailTo(this, MailSender(this, MAIL_STATIONERY_GM), MAIL_CHECK_MASK_COPIED);
 
 	}
