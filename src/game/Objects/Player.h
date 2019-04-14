@@ -1878,7 +1878,7 @@ class MANGOS_DLL_SPEC Player final: public Unit
 		uint32 SwapSpec();
 
 		void safeAddItem(uint32 itemId, uint32 count);
-		bool Player::CanUseDonation(uint32 type);
+		bool CanUseDonation(uint32 type);
 
         void SetSummonPoint(uint32 mapid, float x, float y, float z)
         {
