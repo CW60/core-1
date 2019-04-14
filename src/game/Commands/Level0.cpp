@@ -385,7 +385,7 @@ bool ChatHandler::HandleSwapSpec( char* /*args*/)
 	Field *fields = result->Fetch();
 	uint32 can_use_dualspec = fields[0].GetUInt32();
 	delete result;
-	if (can_use_dualspec == 1)
+	if (can_use_dualspec == 1 || m_session->GetPlayer()->CanUseDonation(213000)) //新老2种双天赋赞助
 	{
 		uint32 res = m_session->GetPlayer()->SwapSpec();
 		switch (res) {

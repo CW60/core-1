@@ -107,6 +107,7 @@ int ITEMS_TOTEM[] = { 22345 };
 // broadcast texts
 #define MANGOS_STRING_DONATION_POINTS_NOT_ENOUGH           210001
 #define MANGOS_STRING_SHOW_DONATION_POINTS			        210002
+#define MANGOS_STRING_DONATION_SUCCESS			        210007
 
 #define GOSSIP_TEXT_DONATION_POINT_QUERY    210000
 
@@ -139,10 +140,13 @@ int ITEMS_TOTEM[] = { 22345 };
 #define GOSSIP_TEXT_Teleport           270000
 #define GOSSIP_TEXT_Teleport_Buy           271004
 
-#define GOSSIP_TEXT_DualSpec          280000
+//#define GOSSIP_TEXT_DualSpec          280000  //历史遗留，老的帐户双天赋赞助
 
 #define GOSSIP_TEXT_Orgrimmar			200001
 #define GOSSIP_TEXT_Ironforge			200002
+
+#define GOSSIP_TEXT_AllFlightPaths			212000  //飞行点全开&秒飞 5000赞助点
+#define GOSSIP_TEXT_DuSpec			213000  //双天赋 5000赞助点
 
 bool GossipHello_TeleportNPC(Player *player, Creature *_Creature)   
 {
@@ -1224,6 +1228,18 @@ CreatureAI* GetAI_custom_summon_debug(Creature *creature)
     return new npc_summon_debugAI(creature);
 }
 
+
+bool BuyDonation(Player* player, uint32 type)
+{
+	uint32 charid = player->GetGUIDLow();
+
+	static SqlStatementID forBuyDonation;
+	SqlStatement stmt = CharacterDatabase.CreateStatement(forBuyDonation, "REPLACE INTO character_donation (guid, type, value) VALUES (?, ?, ?)");
+	stmt.PExecute(charid, type, 1);
+	sLog.out(LOG_CHAR, "player(%u)  BuyDonation type: %u ", player->GetGUID(), type);
+
+}
+
 bool GossipHello_LHWOWNPC(Player* player, Creature* creature)
 {
 	if (player->GetTeam() == HORDE)
@@ -1252,10 +1268,10 @@ bool GossipHello_LHWOWNPC(Player* player, Creature* creature)
 		player->ADD_GOSSIP_ITEM(5, GOSSIP_TEXT_Teleport, GOSSIP_SENDER_MAIN, 16);
 	}
 	else {
-		player->ADD_GOSSIP_ITEM(5, GOSSIP_TEXT_Teleport_Buy, GOSSIP_SENDER_MAIN, 17);
+		//player->ADD_GOSSIP_ITEM(5, GOSSIP_TEXT_Teleport_Buy, GOSSIP_SENDER_MAIN, 17);  //传送赞助取消
 	}
 	
-	player->ADD_GOSSIP_ITEM(5, GOSSIP_TEXT_DualSpec, GOSSIP_SENDER_MAIN, 18);
+	//player->ADD_GOSSIP_ITEM(5, GOSSIP_TEXT_DualSpec, GOSSIP_SENDER_MAIN, 18);  //历史遗留，老的账户双天赋赞助
 
 
 	if (player->getLevel() > 55) {
@@ -1264,6 +1280,14 @@ bool GossipHello_LHWOWNPC(Player* player, Creature* creature)
 
 	player->ADD_GOSSIP_ITEM(5, 290000, GOSSIP_SENDER_MAIN, 20); //永久玩具
 	player->ADD_GOSSIP_ITEM(5, 299100, GOSSIP_SENDER_MAIN, 21); //角色定制化
+
+	if (!player->CanUseDonation(GOSSIP_TEXT_AllFlightPaths)) {
+		player->ADD_GOSSIP_ITEM(5, GOSSIP_TEXT_AllFlightPaths, GOSSIP_SENDER_MAIN, 22); //飞行点全开&秒飞 
+	}
+
+	if (!player->CanUseDonation(GOSSIP_TEXT_DuSpec)) {
+		player->ADD_GOSSIP_ITEM(5, GOSSIP_TEXT_DuSpec, GOSSIP_SENDER_MAIN, 23); //双天赋
+	}
 
 	player->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE, creature->GetGUID());
 	return true;
@@ -1459,7 +1483,7 @@ bool GossipSelect_LHWOWNPC(Player* player, Creature* creature, uint32 sender, ui
 				{
 					uint32 accid = player->GetSession()->GetAccountId();
 					LoginDatabase.PQuery("UPDATE account SET can_use_teleport=1 WHERE id=%u",  accid);
-					player->GetSession()->SendNotification(210007);
+					player->GetSession()->SendNotification(MANGOS_STRING_DONATION_SUCCESS);
 				}
 				break;
 			}
@@ -1480,7 +1504,7 @@ bool GossipSelect_LHWOWNPC(Player* player, Creature* creature, uint32 sender, ui
 					{
 						uint32 accid = player->GetSession()->GetAccountId();
 						LoginDatabase.PQuery("UPDATE account SET can_use_dualspec=1 WHERE id=%u", accid);
-						player->GetSession()->SendNotification(210007);
+						player->GetSession()->SendNotification(MANGOS_STRING_DONATION_SUCCESS);
 						player->GetSession()->SendNotification(210011);
 					}
 				}
@@ -1513,6 +1537,25 @@ bool GossipSelect_LHWOWNPC(Player* player, Creature* creature, uint32 sender, ui
 			{
 
 				player->ADD_GOSSIP_ITEM(5, 299101, GOSSIP_SENDER_MAIN, 299101); //改名字
+				player->ADD_GOSSIP_ITEM(5, 299102, GOSSIP_SENDER_MAIN, 21); //改种族
+				break;
+			}
+			case 22: //飞行点全开
+			{
+				if (SpendDonationPoints(player, 5000)) {
+					BuyDonation(player, GOSSIP_TEXT_AllFlightPaths);
+				}
+				player->GetSession()->SendNotification(MANGOS_STRING_DONATION_SUCCESS);
+				player->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE, creature->GetGUID());
+				break;
+			}
+			case 23: //双天赋
+			{
+				if (SpendDonationPoints(player, 5000)) {
+					BuyDonation(player, GOSSIP_TEXT_DuSpec);
+				}
+				player->GetSession()->SendNotification(MANGOS_STRING_DONATION_SUCCESS);
+				player->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE, creature->GetGUID());
 				break;
 			}
 		}

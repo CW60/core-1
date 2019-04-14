@@ -717,6 +717,10 @@ void WorldSession::HandlePlayerLogin(LoginQueryHolder *holder)
     if (sWorld.getConfig(CONFIG_BOOL_ALL_TAXI_PATHS))
         pCurrChar->SetTaxiCheater(true);
 
+	if (pCurrChar->CanUseDonation(212000)) {
+		pCurrChar->SetTaxiCheater(true);
+	}
+
     if (pCurrChar->IsGameMaster())
         SendNotification(LANG_GM_ON);
 

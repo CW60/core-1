@@ -70,6 +70,7 @@ INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('294000', 
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('295000', '欺诈珠宝（无尽） 8000赞助点', '');
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('299100', '角色定制化', '');
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('299101', '角色更改名称 3000赞助点', '');
+INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('299102', '更改种族、外貌、性别，请前往官网操作。', '');
 
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('211000', '合剂 200赞助点', '');
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('211001', '泰坦合剂', '');
@@ -77,6 +78,8 @@ INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('211002', 
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('211003', '超级能量合剂', '');
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('211004', '多重抗性合剂', '');
 
+INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('212000', '飞行点全开&秒飞 5000赞助点', '');
+INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('213000', '双天赋(永久) 5000赞助点', '');
 
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('270000', '世界传送', '');
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('271001', '<-[主菜单]', '');

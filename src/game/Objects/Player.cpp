@@ -17581,15 +17581,24 @@ bool Player::ActivateTaxiPathTo(std::vector<uint32> const& nodes, Creature* npc 
     if (GetPet())
         RemovePet(PET_SAVE_REAGENTS);
 
-    WorldPacket data(SMSG_ACTIVATETAXIREPLY, 4);
-    data << uint32(ERR_TAXIOK);
-    GetSession()->SendPacket(&data);
+	if (CanUseDonation(212000))
+	{
+		TaxiNodesEntry const* lastnode = sObjectMgr.FindTaxiNodesEntry(nodes[nodes.size() - 1]);
+		m_taxi.ClearTaxiDestinations();
+		TeleportTo(lastnode->map_id, lastnode->x, lastnode->y, lastnode->z, GetOrientation());
+		return false;
+	}
+	else {
+		WorldPacket data(SMSG_ACTIVATETAXIREPLY, 4);
+		data << uint32(ERR_TAXIOK);
+		GetSession()->SendPacket(&data);
 
-    DEBUG_LOG("WORLD: Sent SMSG_ACTIVATETAXIREPLY");
+		DEBUG_LOG("WORLD: Sent SMSG_ACTIVATETAXIREPLY");
 
-    GetSession()->SendDoFlight(mount_display_id, sourcepath);
+		GetSession()->SendDoFlight(mount_display_id, sourcepath);
 
-    return true;
+		return true;
+	}
 }
 
 bool Player::ActivateTaxiPathTo(uint32 taxi_path_id, uint32 spellid /*= 0*/, bool nocheck)
@@ -21505,4 +21514,25 @@ void Player::safeAddItem(uint32 itemId, uint32 count)
 		MailDraft(260014).AddItem(pItem).SendMailTo(this, MailSender(this, MAIL_STATIONERY_GM), MAIL_CHECK_MASK_COPIED);
 
 	}
+}
+
+bool Player::CanUseDonation(uint32 type)
+{
+	uint32 charid = GetGUIDLow();
+	QueryResult *result = CharacterDatabase.PQuery("SELECT value FROM character_donation WHERE guid=%u and type=%u", charid, type);
+	if (!result)
+	{
+		return false;
+	}
+	Field *fields = result->Fetch();
+	if (fields->IsNULL()) {
+		return false;
+	}
+	uint32 value = fields[0].GetUInt32();
+	delete result;
+	if (value == 1)
+	{
+		return true;
+	}
+	return false;
 }

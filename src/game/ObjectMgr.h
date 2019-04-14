@@ -669,6 +669,7 @@ class ObjectMgr
         void GetTaxiPath( uint32 source, uint32 destination, uint32 &path, uint32 &cost);
         uint32 GetTaxiMountDisplayId( uint32 id, Team team, bool allowed_alt_team = false);
 
+		TaxiNodesEntry const* FindTaxiNodesEntry(uint32 nodeId);
         void LoadTaxiPathTransitions();
         TaxiPathTransitionsMapBounds GetTaxiPathTransitionsMapBounds(uint32 entry) const
         {

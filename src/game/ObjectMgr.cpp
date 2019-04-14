@@ -8047,6 +8047,13 @@ void ObjectMgr::LoadTaxiNodes()
     sLog.outString(">> Loaded %u taxi nodes.", maxTaxiNodeEntry);
 }
 
+TaxiNodesEntry const* ObjectMgr::FindTaxiNodesEntry(uint32 nodeId)
+{
+	return m_TaxiNodes[nodeId].get();
+	
+}
+
+
 void ObjectMgr::LoadTaxiPathTransitions()
 {
     m_TaxiPathTransitions.clear();                                            // need for reload case
