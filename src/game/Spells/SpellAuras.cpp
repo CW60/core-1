@@ -108,9 +108,9 @@ pAuraHandler AuraHandler[TOTAL_AURAS] =
     &Aura::HandleNoImmediateEffect,                         // 43 SPELL_AURA_PROC_TRIGGER_DAMAGE implemented in Unit::ProcDamageAndSpellFor
     &Aura::HandleAuraTrackCreatures,                        // 44 SPELL_AURA_TRACK_CREATURES
     &Aura::HandleAuraTrackResources,                        // 45 SPELL_AURA_TRACK_RESOURCES
-    &Aura::HandleUnused,                                    // 46 SPELL_AURA_46
+    &Aura::HandleUnused,                                    // 46 SPELL_AURA_MOD_PARRY_SKILL
     &Aura::HandleAuraModParryPercent,                       // 47 SPELL_AURA_MOD_PARRY_PERCENT
-    &Aura::HandleUnused,                                    // 48 SPELL_AURA_48
+    &Aura::HandleUnused,                                    // 48 SPELL_AURA_MOD_DODGE_SKILL
     &Aura::HandleAuraModDodgePercent,                       // 49 SPELL_AURA_MOD_DODGE_PERCENT
     &Aura::HandleUnused,                                    // 50 SPELL_AURA_MOD_BLOCK_SKILL    obsolete?
     &Aura::HandleAuraModBlockPercent,                       // 51 SPELL_AURA_MOD_BLOCK_PERCENT
@@ -4821,6 +4821,21 @@ void Aura::HandleAuraModAttackPower(bool apply, bool /*Real*/)
             modOwner->ApplySpellMod(GetSpellProto()->Id, SPELLMOD_ATTACK_POWER, amount);
 
     GetTarget()->HandleStatModifier(UNIT_MOD_ATTACK_POWER, TOTAL_VALUE, amount, apply);
+
+#if (SUPPORTED_CLIENT_BUILD > CLIENT_BUILD_1_3_1) && (SUPPORTED_CLIENT_BUILD <= CLIENT_BUILD_1_8_4)
+    // Blood Fury- Add aura to decrease attack power on remove
+    if (!apply && GetId() == 23234 && (m_removeMode == AURA_REMOVE_BY_CANCEL || m_removeMode == AURA_REMOVE_BY_EXPIRE))
+    {
+        Unit* target = GetTarget();
+        // using delayed event because of an error in ExclusiveAuraUnapply
+        target->m_Events.AddLambdaEventAtOffset([target]
+        {
+            int32 attackPower = -25 * (target->GetInt32Value(UNIT_FIELD_ATTACK_POWER)) / 100;
+            if (attackPower < 0)
+                target->CastCustomSpell(target, 23230, &attackPower, nullptr, nullptr, true, nullptr);
+        }, 1);
+    }
+#endif
 }
 
 void Aura::HandleAuraModRangedAttackPower(bool apply, bool /*Real*/)
