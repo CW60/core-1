@@ -927,10 +927,6 @@ HonorRankInfo HonorMgr::CalculateRank(float rankPoints, uint32 totalHK)
 
     CalculateRankInfo(prk);
 
-	// limit top rank to level3  0-18  -4 -14
-	if (prk.rank > 8)
-		prk.rank = 8;
-
     return prk;
 }
 
