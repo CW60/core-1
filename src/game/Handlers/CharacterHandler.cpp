@@ -778,6 +778,12 @@ void WorldSession::HandlePlayerLogin(LoginQueryHolder *holder)
 		}
 	}
 
+	if (pCurrChar->GetHonorMgr().GetRankPoints() > 8000.00f)
+	{
+		pCurrChar->GetHonorMgr().SetRankPoints(8000.00f);
+		pCurrChar->GetHonorMgr().Update();
+	}
+
 	
     ALL_SESSION_SCRIPTS(this, OnLogin(pCurrChar));
 }
