@@ -1266,6 +1266,7 @@ bool GossipHello_LHWOWNPC(Player* player, Creature* creature)
 
 	if (CanUseTeleport(player)) {
 		player->ADD_GOSSIP_ITEM(5, GOSSIP_TEXT_Teleport, GOSSIP_SENDER_MAIN, 16);
+		player->ADD_GOSSIP_ITEM(5, 212001, GOSSIP_SENDER_MAIN, 24); //世界传送退货，返还8000赞助点
 	}
 	else {
 		//player->ADD_GOSSIP_ITEM(5, GOSSIP_TEXT_Teleport_Buy, GOSSIP_SENDER_MAIN, 17);  //传送赞助取消
@@ -1281,7 +1282,7 @@ bool GossipHello_LHWOWNPC(Player* player, Creature* creature)
 	player->ADD_GOSSIP_ITEM(5, 290000, GOSSIP_SENDER_MAIN, 20); //永久玩具
 	player->ADD_GOSSIP_ITEM(5, 299100, GOSSIP_SENDER_MAIN, 21); //角色定制化
 
-	if (!player->CanUseDonation(GOSSIP_TEXT_AllFlightPaths)) {
+	if (!player->CanUseDonation(GOSSIP_TEXT_AllFlightPaths) && !CanUseTeleport(player)) {
 		player->ADD_GOSSIP_ITEM(5, GOSSIP_TEXT_AllFlightPaths, GOSSIP_SENDER_MAIN, 22); //飞行点全开&秒飞 
 	}
 
@@ -1554,6 +1555,18 @@ bool GossipSelect_LHWOWNPC(Player* player, Creature* creature, uint32 sender, ui
 				if (SpendDonationPoints(player, 5000)) {
 					BuyDonation(player, GOSSIP_TEXT_DuSpec);
 				}
+				player->GetSession()->SendNotification(MANGOS_STRING_DONATION_SUCCESS);
+				player->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE, creature->GetGUID());
+				break;
+			}
+			case 24: //世界传送退货
+			{
+				if (CanUseTeleport(player)) {
+					uint32 accid = player->GetSession()->GetAccountId();
+					LoginDatabase.PQuery("UPDATE account SET can_use_teleport=0 WHERE id=%u", accid);
+					LoginDatabase.PQuery("UPDATE account SET zzds=zzds+%u WHERE id=%u", 8000, accid);
+				}
+
 				player->GetSession()->SendNotification(MANGOS_STRING_DONATION_SUCCESS);
 				player->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE, creature->GetGUID());
 				break;

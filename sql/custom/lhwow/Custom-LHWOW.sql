@@ -79,6 +79,7 @@ INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('211003', 
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('211004', '多重抗性合剂', '');
 
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('212000', '飞行点全开&秒飞 5000赞助点', '');
+INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('212001', '！！世界传送退货，返还8000赞助点！！', '');
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('213000', '双天赋(永久) 5000赞助点', '');
 
 INSERT INTO `broadcast_text` (`ID`, `MaleText`, `FemaleText`) VALUES ('270000', '世界传送', '');
